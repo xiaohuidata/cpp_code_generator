@@ -1,0 +1,376 @@
+{
+	"name": "TestProject",
+	"version": "1.0.0",
+	"description": "测试项目配置示例，包含单元测试和模拟类",
+	"output_dir": "./generated_tests",
+	"common_includes": [
+		"<iostream>",
+		"<string>",
+		"<vector>",
+		"<memory>",
+		"<gtest/gtest.h>",
+		"<gmock/gmock.h>"
+	],
+	"variables": {
+		"AUTHOR": "Test Generator",
+		"YEAR": "2024",
+		"COMPANY": "Test Corp",
+		"PROJECT_NAMESPACE": "test_project",
+		"TEST_NAMESPACE": "test",
+		"HEADER_EXTENSION": ".hpp",
+		"SOURCE_EXTENSION": ".cpp"
+	},
+	"code_templates": {
+		"test_fixture": "class ${TEST_FIXTURE} : public ::testing::Test {\nprotected:\n    void SetUp() override {\n        // 测试设置代码\n    }\n    \n    void TearDown() override {\n        // 测试清理代码\n    }\n    \n    // 测试夹具成员变量\n};",
+		"mock_class": "class ${MOCK_CLASS} : public ${BASE_CLASS} {\npublic:\n    MOCK_METHOD(${RETURN_TYPE}, ${METHOD_NAME}, (${PARAMETERS}), (override));\n};"
+	},
+	"files": [
+		{
+			"filename": "calculator${HEADER_EXTENSION}",
+			"type": "header",
+			"includes": [
+				"<string>"
+			],
+			"namespaces": ["${PROJECT_NAMESPACE}"],
+			"classes": [
+				{
+					"name": "Calculator",
+					"access": "public",
+					"functions": [
+						{
+							"name": "Add",
+							"parameters": [
+								{
+									"type": "int",
+									"name": "a"
+								},
+								{
+									"type": "int",
+									"name": "b"
+								}
+							],
+							"return_type": "int",
+							"access": "public",
+							"body": "return a + b;",
+							"comment": "加法运算"
+						},
+						{
+							"name": "Subtract",
+							"parameters": [
+								{
+									"type": "int",
+									"name": "a"
+								},
+								{
+									"type": "int",
+									"name": "b"
+								}
+							],
+							"return_type": "int",
+							"access": "public",
+							"body": "return a - b;",
+							"comment": "减法运算"
+						},
+						{
+							"name": "Multiply",
+							"parameters": [
+								{
+									"type": "int",
+									"name": "a"
+								},
+								{
+									"type": "int",
+									"name": "b"
+								}
+							],
+							"return_type": "int",
+							"access": "public",
+							"body": "return a * b;",
+							"comment": "乘法运算"
+						},
+						{
+							"name": "Divide",
+							"parameters": [
+								{
+									"type": "int",
+									"name": "a"
+								},
+								{
+									"type": "int",
+									"name": "b"
+								}
+							],
+							"return_type": "double",
+							"access": "public",
+							"body": "if (b == 0) {\n    throw std::invalid_argument(\"Division by zero\");\n}\nreturn static_cast<double>(a) / b;",
+							"comment": "除法运算"
+						}
+					]
+				}
+			]
+		},
+		{
+			"filename": "calculator_test${SOURCE_EXTENSION}",
+			"type": "test",
+			"includes": [
+				"\"calculator${HEADER_EXTENSION}\"",
+				"<gtest/gtest.h>",
+				"<stdexcept>"
+			],
+			"namespaces": ["${TEST_NAMESPACE}"],
+			"classes": [
+				{
+					"name": "CalculatorTest",
+					"base_classes": ["::testing::Test"],
+					"access": "public",
+					"functions": [
+						{
+							"name": "SetUp",
+							"return_type": "void",
+							"access": "protected",
+							"override": true,
+							"body": "calculator_ = std::make_unique<${PROJECT_NAMESPACE}::Calculator>();",
+							"comment": "测试设置"
+						},
+						{
+							"name": "TearDown",
+							"return_type": "void",
+							"access": "protected",
+							"override": true,
+							"body": "calculator_.reset();",
+							"comment": "测试清理"
+						}
+					],
+					"members": [
+						{
+							"name": "calculator_",
+							"type": "std::unique_ptr<${PROJECT_NAMESPACE}::Calculator>",
+							"access": "protected",
+							"comment": "测试对象"
+						}
+					]
+				}
+			],
+			"functions": [
+				{
+					"name": "TEST_F",
+					"parameters": [
+						{
+							"type": "CalculatorTest",
+							"name": ""
+						},
+						{
+							"type": "AdditionTest",
+							"name": ""
+						}
+					],
+					"return_type": "void",
+					"access": "public",
+					"body": "EXPECT_EQ(calculator_->Add(2, 3), 5);\nEXPECT_EQ(calculator_->Add(-1, 1), 0);\nEXPECT_EQ(calculator_->Add(0, 0), 0);",
+					"comment": "加法测试"
+				},
+				{
+					"name": "TEST_F",
+					"parameters": [
+						{
+							"type": "CalculatorTest",
+							"name": ""
+						},
+						{
+							"type": "SubtractionTest",
+							"name": ""
+						}
+					],
+					"return_type": "void",
+					"access": "public",
+					"body": "EXPECT_EQ(calculator_->Subtract(5, 3), 2);\nEXPECT_EQ(calculator_->Subtract(0, 5), -5);\nEXPECT_EQ(calculator_->Subtract(10, 10), 0);",
+					"comment": "减法测试"
+				},
+				{
+					"name": "TEST_F",
+					"parameters": [
+						{
+							"type": "CalculatorTest",
+							"name": ""
+						},
+						{
+							"type": "MultiplicationTest",
+							"name": ""
+						}
+					],
+					"return_type": "void",
+					"access": "public",
+					"body": "EXPECT_EQ(calculator_->Multiply(2, 3), 6);\nEXPECT_EQ(calculator_->Multiply(-2, 3), -6);\nEXPECT_EQ(calculator_->Multiply(0, 5), 0);",
+					"comment": "乘法测试"
+				},
+				{
+					"name": "TEST_F",
+					"parameters": [
+						{
+							"type": "CalculatorTest",
+							"name": ""
+						},
+						{
+							"type": "DivisionTest",
+							"name": ""
+						}
+					],
+					"return_type": "void",
+					"access": "public",
+					"body": "EXPECT_DOUBLE_EQ(calculator_->Divide(6, 3), 2.0);\nEXPECT_DOUBLE_EQ(calculator_->Divide(5, 2), 2.5);\nEXPECT_THROW(calculator_->Divide(1, 0), std::invalid_argument);",
+					"comment": "除法测试"
+				}
+			]
+		},
+		{
+			"filename": "mock_database${HEADER_EXTENSION}",
+			"type": "header",
+			"includes": [
+				"<string>",
+				"<vector>",
+				"<gmock/gmock.h>"
+			],
+			"namespaces": ["${TEST_NAMESPACE}", "mocks"],
+			    "classes": [
+				{
+					"name": "DatabaseInterface",
+					"access": "public",
+					"functions": [
+						{
+							"name": "virtual ~DatabaseInterface",
+							"access": "public",
+							"body": "// 虚析构函数",
+							"comment": "虚析构函数"
+						},
+						{
+							"name": "Connect",
+							"return_type": "bool",
+							"access": "public",
+							"virtual": true,
+							"pure_virtual": true,
+							"comment": "连接数据库"
+						},
+						{
+							"name": "Query",
+							"parameters": [
+								{
+									"type": "const std::string&",
+									"name": "sql"
+								}
+							],
+							"return_type": "std::vector<std::string>",
+							"access": "public",
+							"virtual": true,
+							"pure_virtual": true,
+							"comment": "执行查询"
+						},
+						{
+							"name": "Execute",
+							"parameters": [
+								{
+									"type": "const std::string&",
+									"name": "sql"
+								}
+							],
+							"return_type": "bool",
+							"access": "public",
+							"virtual": true,
+							"pure_virtual": true,
+							"comment": "执行SQL语句"
+						}
+					]
+				},
+				{
+					"name": "MockDatabase",
+					"base_classes": ["DatabaseInterface"],
+					"access": "public",
+					"functions": [
+						{
+							"name": "MOCK_METHOD",
+							"parameters": [
+								{
+									"type": "bool",
+									"name": "Connect"
+								},
+								{
+									"type": "()",
+									"name": ""
+								},
+								{
+									"type": "(override)",
+									"name": ""
+								}
+							],
+							"access": "public",
+							"comment": "模拟连接方法"
+						},
+						{
+							"name": "MOCK_METHOD",
+							"parameters": [
+								{
+									"type": "std::vector<std::string>",
+									"name": "Query"
+								},
+								{
+									"type": "(const std::string&)",
+									"name": ""
+								},
+								{
+									"type": "(override)",
+									"name": ""
+								}
+							],
+							"access": "public",
+							"comment": "模拟查询方法"
+						},
+						{
+							"name": "MOCK_METHOD",
+							"parameters": [
+								{
+									"type": "bool",
+									"name": "Execute"
+								},
+								{
+									"type": "(const std::string&)",
+									"name": ""
+								},
+								{
+									"type": "(override)",
+									"name": ""
+								}
+							],
+							"access": "public",
+							"comment": "模拟执行方法"
+						}
+					]
+				}
+			]
+		},
+		{
+			"filename": "main_test${SOURCE_EXTENSION}",
+			"type": "test",
+			"includes": [
+				"<gtest/gtest.h>"
+			],
+			"functions": [
+				{
+					"name": "main",
+					"return_type": "int",
+					"parameters": [
+						{
+							"type": "int",
+							"name": "argc"
+						},
+						{
+							"type": "char**",
+							"name": "argv"
+						}
+					],
+					"body": "::testing::InitGoogleTest(&argc, argv);\nreturn RUN_ALL_TESTS();",
+					"access": "public",
+					"comment": "测试主函数"
+				}
+			]
+		}
+	]
+}

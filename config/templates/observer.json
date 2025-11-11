@@ -1,0 +1,122 @@
+{
+	"name": "observer_template",
+	"description": "观察者模式模板，支持主题-观察者通信",
+	"type": "class_template",
+	"variables": {
+		"SUBJECT_NAME": "Subject",
+		"OBSERVER_NAME": "Observer",
+		"DATA_TYPE": "const std::string&"
+	},
+	"classes": [
+		{
+			"name": "${OBSERVER_NAME}",
+			"access": "public",
+			"functions": [
+				{
+					"name": "~${OBSERVER_NAME}",
+					"access": "public",
+					"virtual": true,
+					"body": "// 虚析构函数",
+					"comment": "虚析构函数"
+				},
+				{
+					"name": "Update",
+					"parameters": [
+						{
+							"type": "${DATA_TYPE}",
+							"name": "data"
+						}
+					],
+					"return_type": "void",
+					"access": "public",
+					"virtual": true,
+					"pure_virtual": true,
+					"comment": "观察者更新接口"
+				}
+			]
+		},
+		{
+			"name": "${SUBJECT_NAME}",
+			"access": "public",
+			"members": [
+				{
+					"name": "observers_",
+					"type": "std::vector<${OBSERVER_NAME}*>",
+					"access": "private",
+					"comment": "观察者列表"
+				},
+				{
+					"name": "data_",
+					"type": "std::string",
+					"access": "private",
+					"comment": "主题数据"
+				}
+			],
+			"functions": [
+				{
+					"name": "Attach",
+					"parameters": [
+						{
+							"type": "${OBSERVER_NAME}*",
+							"name": "observer"
+						}
+					],
+					"return_type": "void",
+					"access": "public",
+					"body": "observers_.push_back(observer);",
+					"comment": "添加观察者"
+				},
+				{
+					"name": "Detach",
+					"parameters": [
+						{
+							"type": "${OBSERVER_NAME}*",
+							"name": "observer"
+						}
+					],
+					"return_type": "void",
+					"access": "public",
+					"body": "observers_.erase(\n    std::remove(observers_.begin(), observers_.end(), observer),\n    observers_.end()\n);",
+					"comment": "移除观察者"
+				},
+				{
+					"name": "Notify",
+					"return_type": "void",
+					"access": "public",
+					"body": "for (auto observer : observers_) {\n    observer->Update(data_);\n}",
+					"comment": "通知所有观察者"
+				},
+				{
+					"name": "SetData",
+					"parameters": [
+						{
+							"type": "const std::string&",
+							"name": "data"
+						}
+					],
+					"return_type": "void",
+					"access": "public",
+					"body": "data_ = data;\nNotify();",
+					"comment": "设置数据并通知观察者"
+				},
+				{
+					"name": "GetData",
+					"return_type": "const std::string&",
+					"access": "public",
+					"const": true,
+					"body": "return data_;",
+					"comment": "获取当前数据"
+				}
+			]
+		}
+	],
+	"includes": [
+		"<vector>",
+		"<algorithm>",
+		"<string>"
+	],
+	"code_templates": {
+		"concrete_observer": "class ${CONCRETE_OBSERVER} : public ${OBSERVER_NAME} {\npublic:\n    void Update(${DATA_TYPE} data) override {\n        // 具体观察者的更新逻辑\n        std::cout << \"${CONCRETE_OBSERVER} received: \" << data << std::endl;\n    }\n};"
+	},
+	"usage_example": "使用观察者模式实现发布-订阅机制，支持动态添加和移除观察者"
+}

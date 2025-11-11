@@ -1,0 +1,295 @@
+{
+	"name": "AdvancedCppProject",
+	"version": "2.0.0",
+	"description": "高级C++项目配置示例，包含设计模式和复杂类结构",
+	"output_dir": "./generated_advanced",
+	"common_includes": [
+		"<iostream>",
+		"<string>",
+		"<vector>",
+		"<memory>",
+		"<map>",
+		"<functional>",
+		"<thread>",
+		"<mutex>",
+		"<atomic>"
+	],
+	"variables": {
+		"AUTHOR": "Advanced Code Generator",
+		"YEAR": "2024",
+		"COMPANY": "Advanced Corp",
+		"PROJECT_NAMESPACE": "advanced_project",
+		"HEADER_EXTENSION": ".hpp",
+		"SOURCE_EXTENSION": ".cpp",
+		"API_EXPORT": "ADVANCED_API"
+	},
+	"code_templates": {
+		"singleton_template": "class ${CLASS_NAME} {\nprivate:\n    static ${CLASS_NAME}* instance_;\n    static std::mutex mutex_;\n    \n    ${CLASS_NAME}() = default;\n    ~${CLASS_NAME}() = default;\n    \npublic:\n    ${CLASS_NAME}(${CLASS_NAME} const&) = delete;\n    void operator=(${CLASS_NAME} const&) = delete;\n    \n    static ${CLASS_NAME}* GetInstance() {\n        if (instance_ == nullptr) {\n            std::lock_guard<std::mutex> lock(mutex_);\n            if (instance_ == nullptr) {\n                instance_ = new ${CLASS_NAME}();\n            }\n        }\n        return instance_;\n    }\n};",
+		"factory_template": "class ${PRODUCT} {\npublic:\n    virtual ~${PRODUCT}() = default;\n    virtual void Operation() = 0;\n};\n\nclass ${FACTORY} {\npublic:\n    virtual ~${FACTORY}() = default;\n    virtual std::unique_ptr<${PRODUCT}> CreateProduct() = 0;\n};"
+	},
+	"files": [
+		{
+			"filename": "logger${HEADER_EXTENSION}",
+			"type": "header",
+			"includes": [
+				"<string>",
+				"<fstream>",
+				"<mutex>",
+				"<memory>"
+			],
+			"namespaces": ["${PROJECT_NAMESPACE}", "core"],
+			"classes": [
+				{
+					"name": "Logger",
+					"templates": ["singleton_template"],
+					"metadata": {
+						"category": "core",
+						"thread_safe": "true"
+					},
+					"members": [
+						{
+							"name": "log_file_",
+							"type": "std::ofstream",
+							"access": "private",
+							"comment": "日志文件输出流"
+						},
+						{
+							"name": "log_level_",
+							"type": "int",
+							"access": "private",
+							"initializer": "1",
+							"comment": "日志级别"
+						}
+					],
+					"functions": [
+						{
+							"name": "SetLogLevel",
+							"parameters": [
+								{
+									"type": "int",
+									"name": "level"
+								}
+							],
+							"return_type": "void",
+							"access": "public",
+							"body": "log_level_ = level;",
+							"comment": "设置日志级别"
+						},
+						{
+							"name": "Log",
+							"parameters": [
+								{
+									"type": "const std::string&",
+									"name": "message"
+								},
+								{
+									"type": "int",
+									"name": "level"
+								}
+							],
+							"return_type": "void",
+							"access": "public",
+							"body": "if (level <= log_level_) {\n    std::lock_guard<std::mutex> lock(mutex_);\n    log_file_ << \"[\" << level << \"] \" << message << std::endl;\n}",
+							"comment": "记录日志消息"
+						}
+					]
+				}
+			]
+		},
+		{
+			"filename": "task_manager${HEADER_EXTENSION}",
+			"type": "header",
+			"includes": [
+				"<vector>",
+				"<functional>",
+				"<thread>",
+				"<atomic>",
+				"<queue>",
+				"<condition_variable>"
+			],
+			"namespaces": ["${PROJECT_NAMESPACE}", "core"],
+			"classes": [
+				{
+					"name": "Task",
+					"access": "public",
+					"functions": [
+						{
+							"name": "~Task",
+							"access": "public",
+							"virtual": true,
+							"body": "// 虚析构函数",
+							"comment": "虚析构函数"
+						},
+						{
+							"name": "Execute",
+							"return_type": "void",
+							"access": "public",
+							"virtual": true,
+							"pure_virtual": true,
+							"comment": "执行任务"
+						}
+					]
+				},
+				{
+					"name": "TaskManager",
+					"access": "public",
+					"members": [
+						{
+							"name": "tasks_",
+							"type": "std::queue<std::unique_ptr<Task>>",
+							"access": "private",
+							"comment": "任务队列"
+						},
+						{
+							"name": "threads_",
+							"type": "std::vector<std::thread>",
+							"access": "private",
+							"comment": "工作线程"
+						},
+						{
+							"name": "running_",
+							"type": "std::atomic<bool>",
+							"access": "private",
+							"initializer": "false",
+							"comment": "运行状态标志"
+						},
+						{
+							"name": "queue_mutex_",
+							"type": "std::mutex",
+							"access": "private",
+							"comment": "队列互斥锁"
+						},
+						{
+							"name": "condition_",
+							"type": "std::condition_variable",
+							"access": "private",
+							"comment": "条件变量"
+						}
+					],
+					"functions": [
+						{
+							"name": "Start",
+							"parameters": [
+								{
+									"type": "int",
+									"name": "num_threads"
+								}
+							],
+							"return_type": "void",
+							"access": "public",
+							"body": "running_ = true;\nfor (int i = 0; i < num_threads; ++i) {\n    threads_.emplace_back(&TaskManager::WorkerThread, this);\n}",
+							"comment": "启动任务管理器"
+						},
+						{
+							"name": "Stop",
+							"return_type": "void",
+							"access": "public",
+							"body": "running_ = false;\ncondition_.notify_all();\nfor (auto& thread : threads_) {\n    if (thread.joinable()) {\n        thread.join();\n    }\n}",
+							"comment": "停止任务管理器"
+						},
+						{
+							"name": "AddTask",
+							"parameters": [
+								{
+									"type": "std::unique_ptr<Task>",
+									"name": "task"
+								}
+							],
+							"return_type": "void",
+							"access": "public",
+							"body": "{\n    std::lock_guard<std::mutex> lock(queue_mutex_);\n    tasks_.push(std::move(task));\n}\ncondition_.notify_one();",
+							"comment": "添加任务到队列"
+						},
+						{
+							"name": "WorkerThread",
+							"return_type": "void",
+							"access": "private",
+							"body": "while (running_) {\n    std::unique_ptr<Task> task;\n    {\n        std::unique_lock<std::mutex> lock(queue_mutex_);\n        condition_.wait(lock, [this] {\n            return !tasks_.empty() || !running_;\n        });\n        \n        if (!running_) break;\n        \n        if (!tasks_.empty()) {\n            task = std::move(tasks_.front());\n            tasks_.pop();\n        }\n    }\n    \n    if (task) {\n        task->Execute();\n    }\n}",
+							"comment": "工作线程函数"
+						}
+					]
+				}
+			]
+		},
+		{
+			"filename": "config_manager${HEADER_EXTENSION}",
+			"type": "header",
+			"includes": [
+				"<string>",
+				"<map>",
+				"<memory>"
+			],
+			"namespaces": ["${PROJECT_NAMESPACE}", "core"],
+			"classes": [
+				{
+					"name": "ConfigManager",
+					"templates": ["singleton_template"],
+					"members": [
+						{
+							"name": "config_map_",
+							"type": "std::map<std::string, std::string>",
+							"access": "private",
+							"comment": "配置键值对存储"
+						}
+					],
+					"functions": [
+						{
+							"name": "SetValue",
+							"parameters": [
+								{
+									"type": "const std::string&",
+									"name": "key"
+								},
+								{
+									"type": "const std::string&",
+									"name": "value"
+								}
+							],
+							"return_type": "void",
+							"access": "public",
+							"body": "config_map_[key] = value;",
+							"comment": "设置配置值"
+						},
+						{
+							"name": "GetValue",
+							"parameters": [
+								{
+									"type": "const std::string&",
+									"name": "key"
+								},
+								{
+									"type": "const std::string&",
+									"name": "default_value"
+								}
+							],
+							"return_type": "const std::string&",
+							"access": "public",
+							"body": "auto it = config_map_.find(key);\nreturn (it != config_map_.end()) ? it->second : default_value;",
+							"comment": "获取配置值"
+						},
+						{
+							"name": "LoadFromFile",
+							"parameters": [
+								{
+									"type": "const std::string&",
+									"name": "filename"
+								}
+							],
+							"return_type": "bool",
+							"access": "public",
+							"body": "// 从文件加载配置的实现\nreturn true;",
+							"comment": "从文件加载配置"
+						}
+					]
+				}
+			]
+		}
+	],
+	"copy_files": [
+		"common_utils.hpp",
+		"library::patterns/sinleton.hpp"
+	],
+	"insert_snippets": [
+		"performance_monitor_snippet"
+	]
+}

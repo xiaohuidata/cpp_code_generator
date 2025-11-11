@@ -1,0 +1,368 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.8	//
+AddCodeLibrary	enhanced_cpp_generator.cpp	/^void EnhancedCppGenerator::AddCodeLibrary(const std::string& name, const std::string& path) {$/;"	f	class:EnhancedCppGenerator
+AddComment	formatter.cpp	/^Formatter& Formatter::AddComment(const std::string& comment) {$/;"	f	class:code_generator::Formatter
+AddFunction	cpp_generator.cpp	/^void CppClass::AddFunction(const CppFunction& func) {$/;"	f	class:CppClass
+AddLine	formatter.cpp	/^Formatter& Formatter::AddLine(const std::string& line) {$/;"	f	class:code_generator::Formatter
+AddMember	cpp_generator.cpp	/^void CppClass::AddMember(const CppMember& member) {$/;"	f	class:CppClass
+ApplyTemplate	config_parser.cpp	/^std::string ConfigParser::ApplyTemplate(const std::string& template_name, $/;"	f	class:code_generator::ConfigParser
+ApplyTemplate	enhanced_cpp_generator.cpp	/^std::string EnhancedCppGenerator::ApplyTemplate(const std::string& template_name, const std::map<std::string, std::string>& variables) {$/;"	f	class:EnhancedCppGenerator
+BackUp	file_streams.cpp	/^void BoostFileOutputStream::BackUp(int count) {$/;"	f	class:code_generator::BoostFileOutputStream
+BackUp	file_streams.cpp	/^void FileInputStream::BackUp(int count) {$/;"	f	class:code_generator::FileInputStream
+BackUp	file_streams.cpp	/^void FileOutputStream::BackUp(int count) {$/;"	f	class:code_generator::FileOutputStream
+BackUp	stream_adapters.cpp	/^void OStreamOutputStream::BackUp(int count) {$/;"	f	class:OStreamOutputStream
+BackUp	stream_adapters.cpp	/^void StringOutputStream::BackUp(int count) {$/;"	f	class:StringOutputStream
+BeginFile	cpp_generator.cpp	/^void CppGenerator::BeginFile(const std::string& filename, const std::vector<std::string>& includes) {$/;"	f	class:CppGenerator
+BeginNamespace	cpp_generator.cpp	/^void CppGenerator::BeginNamespace(const std::string& name) {$/;"	f	class:CppGenerator
+BlockState	../include/code_generator/formatter.h	/^	struct BlockState {$/;"	s	class:code_generator::Formatter::IndentStyle
+BlockType	../include/code_generator/formatter.h	/^	enum class BlockType { NONE, IF, ELSE, FOR, WHILE, CLASS, STRUCT, NAMESPACE };$/;"	c	class:code_generator::Formatter::IndentStyle
+BoostFileOutputStream	../include/code_generator/file_streams.h	/^class BoostFileOutputStream : public ZeroCopyOutputStream {$/;"	c	namespace:code_generator
+BoostFileOutputStream	file_streams.cpp	/^BoostFileOutputStream::BoostFileOutputStream(boost::iostreams::stream<boost::iostreams::file_descriptor_sink>& stream)$/;"	f	class:code_generator::BoostFileOutputStream
+BoostFileOutputStream	file_streams.cpp	/^BoostFileOutputStream::BoostFileOutputStream(const boost::filesystem::path& filename)$/;"	f	class:code_generator::BoostFileOutputStream
+BuildIncludeGuard	cpp_generator.cpp	/^std::string CppGenerator::BuildIncludeGuard(const std::string& filename) {$/;"	f	class:CppGenerator
+BuildVariableMap	config_parser.cpp	/^void ConfigParser::BuildVariableMap() {$/;"	f	class:code_generator::ConfigParser
+ByteCount	file_streams.cpp	/^std::int64_t BoostFileOutputStream::ByteCount() const {$/;"	f	class:code_generator::BoostFileOutputStream
+ByteCount	file_streams.cpp	/^std::int64_t FileInputStream::ByteCount() const {$/;"	f	class:code_generator::FileInputStream
+ByteCount	file_streams.cpp	/^std::int64_t FileOutputStream::ByteCount() const {$/;"	f	class:code_generator::FileOutputStream
+ByteCount	stream_adapters.cpp	/^int64_t OStreamOutputStream::ByteCount() const {$/;"	f	class:OStreamOutputStream
+ByteCount	stream_adapters.cpp	/^int64_t StringOutputStream::ByteCount() const {$/;"	f	class:StringOutputStream
+CLASS	../include/code_generator/formatter.h	/^	enum class BlockType { NONE, IF, ELSE, FOR, WHILE, CLASS, STRUCT, NAMESPACE };$/;"	m	class:code_generator::Formatter::IndentStyle::BlockType
+CODE_GENERATOR_CONFIG_PARSER_H	../include/code_generator/config_parser.h	2;"	d
+CODE_GENERATOR_FILE_STREAMS_HPP	../include/code_generator/file_streams.h	2;"	d
+CODE_GENERATOR_FORMATTER_HPP	../include/code_generator/formatter.h	2;"	d
+CODE_GENERATOR_H	../include/code_generator.h	2;"	d
+CODE_GENERATOR_ZERO_COPY_STREAM_HPP	../include/code_generator/zero_copy_stream.h	2;"	d
+CPP_GENERATOR_H	../include/code_generator/cpp_generator.h	3;"	d
+Class	formatter.cpp	/^Formatter& Formatter::Class(const std::string& name, const std::string& inheritance) {$/;"	f	class:code_generator::Formatter
+ClassConfig	../include/code_generator/config_parser.h	/^	struct ClassConfig {$/;"	s	struct:code_generator::CodeGenConfig
+CloseBlock	formatter.cpp	/^void Formatter::CloseBlock(const std::string& suffix) {$/;"	f	class:code_generator::Formatter
+CodeGenConfig	../include/code_generator/config_parser.h	/^struct CodeGenConfig {$/;"	s	namespace:code_generator
+ConfigParser	../include/code_generator/config_parser.h	/^class ConfigParser {$/;"	c	namespace:code_generator
+ConfigParser	config_parser.cpp	/^ConfigParser::ConfigParser() : error_message_("") {}$/;"	f	class:code_generator::ConfigParser
+ConvertToCppClass	enhanced_cpp_generator.cpp	/^CppClass EnhancedCppGenerator::ConvertToCppClass(const code_generator::CodeGenConfig::ClassConfig& config) {$/;"	f	class:EnhancedCppGenerator
+ConvertToCppFunction	enhanced_cpp_generator.cpp	/^CppFunction EnhancedCppGenerator::ConvertToCppFunction(const code_generator::CodeGenConfig::FunctionConfig& config) {$/;"	f	class:EnhancedCppGenerator
+ConvertToCppMember	enhanced_cpp_generator.cpp	/^CppMember EnhancedCppGenerator::ConvertToCppMember(const code_generator::CodeGenConfig::MemberConfig& config) {$/;"	f	class:EnhancedCppGenerator
+CopyFile	enhanced_cpp_generator.cpp	/^bool EnhancedCppGenerator::CopyFile(const std::string& source, const std::string& destination) {$/;"	f	class:EnhancedCppGenerator
+CopyStream	stream_adapters.cpp	/^bool StreamUtil::CopyStream(ZeroCopyInputStream* input, ZeroCopyOutputStream* output) {$/;"	f	class:StreamUtil
+CppClass	../include/code_generator/cpp_generator.h	/^struct CppClass {$/;"	s
+CppFunction	../include/code_generator/cpp_generator.h	/^struct CppFunction {$/;"	s
+CppGenerator	../include/code_generator/cpp_generator.h	/^class CppGenerator {$/;"	c
+CppGenerator	cpp_generator.cpp	/^CppGenerator::CppGenerator(code_generator::ZeroCopyOutputStream* output, const CppGeneratorOptions& options)$/;"	f	class:CppGenerator
+CppGeneratorOptions	../include/code_generator/cpp_generator.h	/^struct CppGeneratorOptions {$/;"	s
+CppMember	../include/code_generator/cpp_generator.h	/^struct CppMember {$/;"	s
+CppParameter	../include/code_generator/cpp_generator.h	/^struct CppParameter {$/;"	s
+CppType	../include/code_generator/cpp_generator.h	/^struct CppType {$/;"	s
+CurrentIndent	formatter.cpp	/^std::string Formatter::CurrentIndent() const {$/;"	f	class:code_generator::Formatter
+Define	formatter.cpp	/^Formatter& Formatter::Define(const std::string& macro) {$/;"	f	class:code_generator::Formatter
+ELSE	../include/code_generator/formatter.h	/^	enum class BlockType { NONE, IF, ELSE, FOR, WHILE, CLASS, STRUCT, NAMESPACE };$/;"	m	class:code_generator::Formatter::IndentStyle::BlockType
+ENHANCED_CPP_GENERATOR_H	../include/code_generator/enhanced_cpp_generator.h	2;"	d
+Else	formatter.cpp	/^Formatter& Formatter::Else() {$/;"	f	class:code_generator::Formatter
+ElseIf	formatter.cpp	/^Formatter& Formatter::ElseIf(const std::string& condition) {$/;"	f	class:code_generator::Formatter
+EndClass	formatter.cpp	/^Formatter& Formatter::EndClass() {$/;"	f	class:code_generator::Formatter
+EndFile	cpp_generator.cpp	/^void CppGenerator::EndFile() {$/;"	f	class:CppGenerator
+EndIf	formatter.cpp	/^Formatter& Formatter::EndIf() {$/;"	f	class:code_generator::Formatter
+EndIfDef	formatter.cpp	/^Formatter& Formatter::EndIfDef() {$/;"	f	class:code_generator::Formatter
+EndLine	formatter.cpp	/^Formatter& Formatter::EndLine() {$/;"	f	class:code_generator::Formatter
+EndLoop	formatter.cpp	/^Formatter& Formatter::EndLoop() {$/;"	f	class:code_generator::Formatter
+EndNamespace	cpp_generator.cpp	/^void CppGenerator::EndNamespace() {$/;"	f	class:CppGenerator
+EndNamespace	formatter.cpp	/^Formatter& Formatter::EndNamespace() {$/;"	f	class:code_generator::Formatter
+EnhancedCppGenerator	../include/code_generator/enhanced_cpp_generator.h	/^class EnhancedCppGenerator {$/;"	c
+EnhancedCppGenerator	enhanced_cpp_generator.cpp	/^EnhancedCppGenerator::EnhancedCppGenerator(const std::string& output_dir)$/;"	f	class:EnhancedCppGenerator
+EnsureDirectory	enhanced_cpp_generator.cpp	/^bool EnhancedCppGenerator::EnsureDirectory(const std::string& path) {$/;"	f	class:EnhancedCppGenerator
+Enum	formatter.cpp	/^Formatter& Formatter::Enum(const std::string& name, const std::vector<std::string>& values) {$/;"	f	class:code_generator::Formatter
+Eof	file_streams.cpp	/^bool FileInputStream::Eof() const {$/;"	f	class:code_generator::FileInputStream
+FOR	../include/code_generator/formatter.h	/^	enum class BlockType { NONE, IF, ELSE, FOR, WHILE, CLASS, STRUCT, NAMESPACE };$/;"	m	class:code_generator::Formatter::IndentStyle::BlockType
+FileConfig	../include/code_generator/config_parser.h	/^	struct FileConfig {$/;"	s	struct:code_generator::CodeGenConfig
+FileInputStream	../include/code_generator/file_streams.h	/^class FileInputStream : public ZeroCopyInputStream {$/;"	c	namespace:code_generator
+FileInputStream	file_streams.cpp	/^FileInputStream::FileInputStream(FILE* file, int buffer_size, bool take_ownership)$/;"	f	class:code_generator::FileInputStream
+FileInputStream	file_streams.cpp	/^FileInputStream::FileInputStream(const boost::filesystem::path& filename, int buffer_size)$/;"	f	class:code_generator::FileInputStream
+FileOutputStream	../include/code_generator/file_streams.h	/^class FileOutputStream : public ZeroCopyOutputStream {$/;"	c	namespace:code_generator
+FileOutputStream	file_streams.cpp	/^FileOutputStream::FileOutputStream(FILE* file, int buffer_size, bool take_ownership)$/;"	f	class:code_generator::FileOutputStream
+FileOutputStream	file_streams.cpp	/^FileOutputStream::FileOutputStream(const boost::filesystem::path& filename, int buffer_size)$/;"	f	class:code_generator::FileOutputStream
+Flush	../include/code_generator/zero_copy_stream.h	/^	virtual bool Flush() { return true; }$/;"	f	class:code_generator::ZeroCopyOutputStream
+Flush	file_streams.cpp	/^bool BoostFileOutputStream::Flush() {$/;"	f	class:code_generator::BoostFileOutputStream
+Flush	file_streams.cpp	/^bool FileOutputStream::Flush() {$/;"	f	class:code_generator::FileOutputStream
+Flush	formatter.cpp	/^void Formatter::Flush() {$/;"	f	class:code_generator::Formatter
+Flush	stream_adapters.cpp	/^bool OStreamOutputStream::Flush() {$/;"	f	class:OStreamOutputStream
+FlushBuffer	file_streams.cpp	/^bool FileOutputStream::FlushBuffer() {$/;"	f	class:code_generator::FileOutputStream
+For	formatter.cpp	/^Formatter& Formatter::For(const std::string& loop_header) {$/;"	f	class:code_generator::Formatter
+FormatRecursive	../include/code_generator/formatter.h	/^	std::string FormatRecursive(boost::format& fmt) {$/;"	f	class:code_generator::Formatter::IndentStyle
+FormatRecursive	../include/code_generator/formatter.h	/^	std::string FormatRecursive(boost::format& fmt, T&& value, Args&&... args) {$/;"	f	class:code_generator::Formatter::IndentStyle
+Formatter	../include/code_generator/formatter.h	/^class Formatter : private boost::noncopyable {$/;"	c	namespace:code_generator
+Formatter	formatter.cpp	/^Formatter::Formatter(ZeroCopyOutputStreamPtr output, IndentStyle style, bool use_braces)$/;"	f	class:code_generator::Formatter
+FromJson	config_parser.cpp	/^CodeGenConfig::ClassConfig CodeGenConfig::ClassConfig::FromJson(const json::value& json) {$/;"	f	class:code_generator::CodeGenConfig::ClassConfig
+FromJson	config_parser.cpp	/^CodeGenConfig::FileConfig CodeGenConfig::FileConfig::FromJson(const json::value& json) {$/;"	f	class:code_generator::CodeGenConfig::FileConfig
+FromJson	config_parser.cpp	/^CodeGenConfig::FunctionConfig CodeGenConfig::FunctionConfig::FromJson(const json::value& json) {$/;"	f	class:code_generator::CodeGenConfig::FunctionConfig
+FromJson	config_parser.cpp	/^CodeGenConfig::MemberConfig CodeGenConfig::MemberConfig::FromJson(const json::value& json) {$/;"	f	class:code_generator::CodeGenConfig::MemberConfig
+FromJson	config_parser.cpp	/^CodeGenConfig::ProjectConfig CodeGenConfig::ProjectConfig::FromJson(const json::value& json) {$/;"	f	class:code_generator::CodeGenConfig::ProjectConfig
+FunctionConfig	../include/code_generator/config_parser.h	/^	struct FunctionConfig {$/;"	s	struct:code_generator::CodeGenConfig
+GenerateClass	cpp_generator.cpp	/^void CppGenerator::GenerateClass(const CppClass& cls) {$/;"	f	class:CppGenerator
+GenerateClass	enhanced_cpp_generator.cpp	/^bool EnhancedCppGenerator::GenerateClass(const code_generator::CodeGenConfig::ClassConfig& class_config, code_generator::Formatter& formatter) {$/;"	f	class:EnhancedCppGenerator
+GenerateClassDeclaration	cpp_generator.cpp	/^void CppGenerator::GenerateClassDeclaration(const CppClass& cls) {$/;"	f	class:CppGenerator
+GenerateClassImplementation	cpp_generator.cpp	/^void CppGenerator::GenerateClassImplementation(const CppClass& cls, const std::string& namespace_prefix) {$/;"	f	class:CppGenerator
+GenerateEnum	cpp_generator.cpp	/^void CppGenerator::GenerateEnum(const std::string& name, const std::vector<std::string>& values, const std::string& type) {$/;"	f	class:CppGenerator
+GenerateFile	enhanced_cpp_generator.cpp	/^bool EnhancedCppGenerator::GenerateFile(const code_generator::CodeGenConfig::FileConfig& file_config) {$/;"	f	class:EnhancedCppGenerator
+GenerateFileHeader	cpp_generator.cpp	/^void CppGenerator::GenerateFileHeader(const std::string& filename) {$/;"	f	class:CppGenerator
+GenerateFromConfig	enhanced_cpp_generator.cpp	/^bool EnhancedCppGenerator::GenerateFromConfig(const code_generator::CodeGenConfig::ProjectConfig& config) {$/;"	f	class:EnhancedCppGenerator
+GenerateFromConfigFile	enhanced_cpp_generator.cpp	/^bool EnhancedCppGenerator::GenerateFromConfigFile(const std::string& config_file) {$/;"	f	class:EnhancedCppGenerator
+GenerateFunction	cpp_generator.cpp	/^void CppGenerator::GenerateFunction(const CppFunction& func, bool in_class) {$/;"	f	class:CppGenerator
+GenerateFunction	enhanced_cpp_generator.cpp	/^bool EnhancedCppGenerator::GenerateFunction(const code_generator::CodeGenConfig::FunctionConfig& func_config, code_generator::Formatter& formatter, bool in_class) {$/;"	f	class:EnhancedCppGenerator
+GenerateFunctionComment	cpp_generator.cpp	/^void CppGenerator::GenerateFunctionComment(const CppFunction& func) {$/;"	f	class:CppGenerator
+GenerateFunctionDeclaration	cpp_generator.cpp	/^void CppGenerator::GenerateFunctionDeclaration(const CppFunction& func) {$/;"	f	class:CppGenerator
+GenerateFunctionImplementation	cpp_generator.cpp	/^void CppGenerator::GenerateFunctionImplementation(const CppFunction& func, const std::string& class_name) {$/;"	f	class:CppGenerator
+GenerateGetter	cpp_generator.cpp	/^void CppGenerator::GenerateGetter(const CppMember& member) {$/;"	f	class:CppGenerator
+GenerateGlobal	enhanced_cpp_generator.cpp	/^bool EnhancedCppGenerator::GenerateGlobal(const code_generator::CodeGenConfig::MemberConfig& global_config, code_generator::Formatter& formatter) {$/;"	f	class:EnhancedCppGenerator
+GenerateIncludeGuards	cpp_generator.cpp	/^void CppGenerator::GenerateIncludeGuards(bool begin) {$/;"	f	class:CppGenerator
+GenerateIncludes	cpp_generator.cpp	/^void CppGenerator::GenerateIncludes(const std::vector<std::string>& includes) {$/;"	f	class:CppGenerator
+GenerateMember	enhanced_cpp_generator.cpp	/^bool EnhancedCppGenerator::GenerateMember(const code_generator::CodeGenConfig::MemberConfig& member_config, code_generator::Formatter& formatter) {$/;"	f	class:EnhancedCppGenerator
+GenerateMemberComment	cpp_generator.cpp	/^void CppGenerator::GenerateMemberComment(const CppMember& member) {$/;"	f	class:CppGenerator
+GenerateSetter	cpp_generator.cpp	/^void CppGenerator::GenerateSetter(const CppMember& member) {$/;"	f	class:CppGenerator
+GetBuildInfo	main.cpp	/^std::string GetBuildInfo() {$/;"	f	namespace:code_generator
+GetError	../include/code_generator/config_parser.h	/^	const std::string& GetError() const { return error_message_; }$/;"	f	class:code_generator::ConfigParser
+GetFilename	../include/code_generator/file_streams.h	/^	const boost::filesystem::path& GetFilename() const { return filename_; }$/;"	f	class:code_generator::FileInputStream
+GetFilename	../include/code_generator/file_streams.h	/^	const boost::filesystem::path& GetFilename() const { return filename_; }$/;"	f	class:code_generator::FileOutputStream
+GetFormatter	../include/code_generator/cpp_generator.h	/^    code_generator::Formatter& GetFormatter() { return formatter_; }$/;"	f	class:CppGenerator
+GetIndentLevel	../include/code_generator/formatter.h	/^	int GetIndentLevel() const { return indent_level_; }$/;"	f	class:code_generator::Formatter::IndentStyle
+GetProjectConfig	../include/code_generator/config_parser.h	/^	const CodeGenConfig::ProjectConfig& GetProjectConfig() const { return project_config_; }$/;"	f	class:code_generator::ConfigParser
+GetSignature	cpp_generator.cpp	/^std::string CppFunction::GetSignature() const {$/;"	f	class:CppFunction
+GetTemplate	config_parser.cpp	/^std::string ConfigParser::GetTemplate(const std::string& name) const {$/;"	f	class:code_generator::ConfigParser
+GetVersion	main.cpp	/^std::string GetVersion() {$/;"	f	namespace:code_generator
+IF	../include/code_generator/formatter.h	/^	enum class BlockType { NONE, IF, ELSE, FOR, WHILE, CLASS, STRUCT, NAMESPACE };$/;"	m	class:code_generator::Formatter::IndentStyle::BlockType
+If	formatter.cpp	/^Formatter& Formatter::If(const std::string& condition) {$/;"	f	class:code_generator::Formatter
+IfDef	formatter.cpp	/^Formatter& Formatter::IfDef(const std::string& macro) {$/;"	f	class:code_generator::Formatter
+IfNDef	formatter.cpp	/^Formatter& Formatter::IfNDef(const std::string& macro) {$/;"	f	class:code_generator::Formatter
+Include	formatter.cpp	/^Formatter& Formatter::Include(const std::string& header) {$/;"	f	class:code_generator::Formatter
+Indent	formatter.cpp	/^Formatter& Formatter::Indent() {$/;"	f	class:code_generator::Formatter
+IndentStyle	../include/code_generator/formatter.h	/^	enum class IndentStyle { SPACES_2 = 2, SPACES_4 = 4, TABS = -1 };$/;"	c	class:code_generator::Formatter
+InsertSnippet	enhanced_cpp_generator.cpp	/^bool EnhancedCppGenerator::InsertSnippet(const std::string& file_path, const std::string& snippet) {$/;"	f	class:EnhancedCppGenerator
+IsOpen	../include/code_generator/file_streams.h	/^	bool IsOpen() const { return file_ != nullptr; }$/;"	f	class:code_generator::FileInputStream
+IsOpen	../include/code_generator/file_streams.h	/^	bool IsOpen() const { return file_ != nullptr; }$/;"	f	class:code_generator::FileOutputStream
+JsonArrayToStringVector	config_parser.cpp	/^std::vector<std::string> ConfigParser::JsonArrayToStringVector(const json::value& array) {$/;"	f	class:code_generator::ConfigParser
+JsonObjectToStringMap	config_parser.cpp	/^std::map<std::string, std::string> ConfigParser::JsonObjectToStringMap(const json::value& object) {$/;"	f	class:code_generator::ConfigParser
+LoadFromFile	config_parser.cpp	/^bool ConfigParser::LoadFromFile(const boost::filesystem::path& filename) {$/;"	f	class:code_generator::ConfigParser
+LoadFromJson	config_parser.cpp	/^bool ConfigParser::LoadFromJson(const json::value& json) {$/;"	f	class:code_generator::ConfigParser
+LoadFromString	config_parser.cpp	/^bool ConfigParser::LoadFromString(const std::string& json_str) {$/;"	f	class:code_generator::ConfigParser
+MemberConfig	../include/code_generator/config_parser.h	/^	struct MemberConfig {$/;"	s	struct:code_generator::CodeGenConfig
+NONE	../include/code_generator/formatter.h	/^	enum class BlockType { NONE, IF, ELSE, FOR, WHILE, CLASS, STRUCT, NAMESPACE };$/;"	m	class:code_generator::Formatter::IndentStyle::BlockType
+Namespace	formatter.cpp	/^Formatter& Formatter::Namespace(const std::string& name) {$/;"	f	class:code_generator::Formatter
+Next	file_streams.cpp	/^bool BoostFileOutputStream::Next(void** data, int* size) {$/;"	f	class:code_generator::BoostFileOutputStream
+Next	file_streams.cpp	/^bool FileInputStream::Next(const void** data, int* size) {$/;"	f	class:code_generator::FileInputStream
+Next	file_streams.cpp	/^bool FileOutputStream::Next(void** data, int* size) {$/;"	f	class:code_generator::FileOutputStream
+Next	stream_adapters.cpp	/^bool OStreamOutputStream::Next(void** data, int* size) {$/;"	f	class:OStreamOutputStream
+Next	stream_adapters.cpp	/^bool StringOutputStream::Next(void** data, int* size) {$/;"	f	class:StringOutputStream
+OStreamOutputStream	../include/code_generator/stream_adapters.h	/^class OStreamOutputStream : public ZeroCopyOutputStream {$/;"	c
+OStreamOutputStream	stream_adapters.cpp	/^OStreamOutputStream::OStreamOutputStream(std::ostream* output, int buffer_size)$/;"	f	class:OStreamOutputStream
+OpenBlock	formatter.cpp	/^Formatter::Scope Formatter::OpenBlock(const std::string& prefix) {$/;"	f	class:code_generator::Formatter
+Outdent	formatter.cpp	/^Formatter& Formatter::Outdent() {$/;"	f	class:code_generator::Formatter
+Print	formatter.cpp	/^Formatter& Formatter::Print(const char* text) {$/;"	f	class:code_generator::Formatter
+Print	formatter.cpp	/^Formatter& Formatter::Print(const std::string& text) {$/;"	f	class:code_generator::Formatter
+Print	formatter.cpp	/^Formatter& Formatter::Print(const std::vector<std::string>& lines) {$/;"	f	class:code_generator::Formatter
+Print	formatter.cpp	/^Formatter& Formatter::Print(int value) {$/;"	f	class:code_generator::Formatter
+PrintFormat	../include/code_generator/formatter.h	/^	Formatter& PrintFormat(const std::string& format, Args&&... args) {$/;"	f	class:code_generator::Formatter::IndentStyle
+Private	formatter.cpp	/^Formatter& Formatter::Private() {$/;"	f	class:code_generator::Formatter
+ProcessCodeBody	enhanced_cpp_generator.cpp	/^std::string EnhancedCppGenerator::ProcessCodeBody(const std::string& body) {$/;"	f	class:EnhancedCppGenerator
+ProcessTemplate	config_parser.cpp	/^std::string ConfigParser::ProcessTemplate(const std::string& template_text) const {$/;"	f	class:code_generator::ConfigParser
+ProjectConfig	../include/code_generator/config_parser.h	/^	struct ProjectConfig {$/;"	s	struct:code_generator::CodeGenConfig
+Protected	formatter.cpp	/^Formatter& Formatter::Protected() {$/;"	f	class:code_generator::Formatter
+Public	formatter.cpp	/^Formatter& Formatter::Public() {$/;"	f	class:code_generator::Formatter
+ReadChar	zero_copy_stream.cpp	/^bool ZeroCopyInputStream::ReadChar(char* value) {$/;"	f	class:code_generator::ZeroCopyInputStream
+ReadFileToString	stream_adapters.cpp	/^bool StreamUtil::ReadFileToString(const std::string& filename, std::string* content) {$/;"	f	class:StreamUtil
+ReadRaw	zero_copy_stream.cpp	/^bool ZeroCopyInputStream::ReadRaw(void* buffer, int size) {$/;"	f	class:code_generator::ZeroCopyInputStream
+ReadToString	stream_adapters.cpp	/^bool StreamUtil::ReadToString(ZeroCopyInputStream* input, std::string* output) {$/;"	f	class:StreamUtil
+ReadToString	zero_copy_stream.cpp	/^bool ZeroCopyInputStream::ReadToString(std::string* str, int size) {$/;"	f	class:code_generator::ZeroCopyInputStream
+Refill	file_streams.cpp	/^bool FileInputStream::Refill() {$/;"	f	class:code_generator::FileInputStream
+RegisterTemplate	enhanced_cpp_generator.cpp	/^void EnhancedCppGenerator::RegisterTemplate(const std::string& name, const std::string& content) {$/;"	f	class:EnhancedCppGenerator
+ReplaceVariables	config_parser.cpp	/^std::string ConfigParser::ReplaceVariables(const std::string& text) const {$/;"	f	class:code_generator::ConfigParser
+ResolveCodeReference	enhanced_cpp_generator.cpp	/^std::string EnhancedCppGenerator::ResolveCodeReference(const std::string& reference) {$/;"	f	class:EnhancedCppGenerator
+ResolveKeywords	enhanced_cpp_generator.cpp	/^std::string EnhancedCppGenerator::ResolveKeywords(const std::string& text) {$/;"	f	class:EnhancedCppGenerator
+SPACES_2	../include/code_generator/formatter.h	/^	enum class IndentStyle { SPACES_2 = 2, SPACES_4 = 4, TABS = -1 };$/;"	m	class:code_generator::Formatter::IndentStyle
+SPACES_4	../include/code_generator/formatter.h	/^	enum class IndentStyle { SPACES_2 = 2, SPACES_4 = 4, TABS = -1 };$/;"	m	class:code_generator::Formatter::IndentStyle
+STREAM_ADAPTERS_H	../include/code_generator/stream_adapters.h	2;"	d
+STRUCT	../include/code_generator/formatter.h	/^	enum class BlockType { NONE, IF, ELSE, FOR, WHILE, CLASS, STRUCT, NAMESPACE };$/;"	m	class:code_generator::Formatter::IndentStyle::BlockType
+SaveToFile	config_parser.cpp	/^bool ConfigParser::SaveToFile(const boost::filesystem::path& filename) const {$/;"	f	class:code_generator::ConfigParser
+Scope	../include/code_generator/formatter.h	/^	class Scope {$/;"	c	class:code_generator::Formatter::IndentStyle
+Scope	formatter.cpp	/^Formatter::Scope::Scope(Formatter* formatter, const std::string& prefix)$/;"	f	class:code_generator::Formatter::Scope
+SetConfigParser	../include/code_generator/enhanced_cpp_generator.h	/^    void SetConfigParser(std::shared_ptr<code_generator::ConfigParser> parser) { config_parser_ = parser; }$/;"	f	class:EnhancedCppGenerator
+SetError	config_parser.cpp	/^void ConfigParser::SetError(const std::string& error) {$/;"	f	class:code_generator::ConfigParser
+SetIndentLevel	formatter.cpp	/^Formatter& Formatter::SetIndentLevel(int level) {$/;"	f	class:code_generator::Formatter
+Skip	zero_copy_stream.cpp	/^bool ZeroCopyInputStream::Skip(int count) {$/;"	f	class:code_generator::ZeroCopyInputStream
+StreamUtil	../include/code_generator/stream_adapters.h	/^class StreamUtil {$/;"	c
+StringMapToJsonObject	config_parser.cpp	/^json::value ConfigParser::StringMapToJsonObject(const std::map<std::string, std::string>& map) {$/;"	f	class:code_generator::ConfigParser
+StringOutputStream	../include/code_generator/stream_adapters.h	/^class StringOutputStream : public ZeroCopyOutputStream {$/;"	c
+StringOutputStream	stream_adapters.cpp	/^StringOutputStream::StringOutputStream(std::string* target)$/;"	f	class:StringOutputStream
+StringVectorToJsonArray	config_parser.cpp	/^json::value ConfigParser::StringVectorToJsonArray(const std::vector<std::string>& vec) {$/;"	f	class:code_generator::ConfigParser
+Struct	formatter.cpp	/^Formatter& Formatter::Struct(const std::string& name, const std::string& inheritance) {$/;"	f	class:code_generator::Formatter
+TABS	../include/code_generator/formatter.h	/^	enum class IndentStyle { SPACES_2 = 2, SPACES_4 = 4, TABS = -1 };$/;"	m	class:code_generator::Formatter::IndentStyle
+ToJson	config_parser.cpp	/^json::value CodeGenConfig::ClassConfig::ToJson() const {$/;"	f	class:code_generator::CodeGenConfig::ClassConfig
+ToJson	config_parser.cpp	/^json::value CodeGenConfig::FileConfig::ToJson() const {$/;"	f	class:code_generator::CodeGenConfig::FileConfig
+ToJson	config_parser.cpp	/^json::value CodeGenConfig::FunctionConfig::ToJson() const {$/;"	f	class:code_generator::CodeGenConfig::FunctionConfig
+ToJson	config_parser.cpp	/^json::value CodeGenConfig::MemberConfig::ToJson() const {$/;"	f	class:code_generator::CodeGenConfig::MemberConfig
+ToJson	config_parser.cpp	/^json::value CodeGenConfig::ProjectConfig::ToJson() const {$/;"	f	class:code_generator::CodeGenConfig::ProjectConfig
+ToJsonString	config_parser.cpp	/^std::string ConfigParser::ToJsonString(bool pretty) const {$/;"	f	class:code_generator::ConfigParser
+ToString	cpp_generator.cpp	/^std::string CppMember::ToString() const {$/;"	f	class:CppMember
+ToString	cpp_generator.cpp	/^std::string CppParameter::ToString() const {$/;"	f	class:CppParameter
+ToString	cpp_generator.cpp	/^std::string CppType::ToString() const {$/;"	f	class:CppType
+ValidateConfig	config_parser.cpp	/^bool ConfigParser::ValidateConfig() const {$/;"	f	class:code_generator::ConfigParser
+WHILE	../include/code_generator/formatter.h	/^	enum class BlockType { NONE, IF, ELSE, FOR, WHILE, CLASS, STRUCT, NAMESPACE };$/;"	m	class:code_generator::Formatter::IndentStyle::BlockType
+While	formatter.cpp	/^Formatter& Formatter::While(const std::string& condition) {$/;"	f	class:code_generator::Formatter
+WriteChar	zero_copy_stream.cpp	/^bool ZeroCopyOutputStream::WriteChar(char value) {$/;"	f	class:code_generator::ZeroCopyOutputStream
+WriteIndent	formatter.cpp	/^void Formatter::WriteIndent() {$/;"	f	class:code_generator::Formatter
+WriteRaw	zero_copy_stream.cpp	/^bool ZeroCopyOutputStream::WriteRaw(const void* data, int size) {$/;"	f	class:code_generator::ZeroCopyOutputStream
+WriteString	formatter.cpp	/^void Formatter::WriteString(const std::string& str) {$/;"	f	class:code_generator::Formatter
+WriteString	zero_copy_stream.cpp	/^bool ZeroCopyOutputStream::WriteString(const std::string& str) {$/;"	f	class:code_generator::ZeroCopyOutputStream
+WriteStringToFile	stream_adapters.cpp	/^bool StreamUtil::WriteStringToFile(const std::string& content, const std::string& filename) {$/;"	f	class:StreamUtil
+ZeroCopyInputStream	../include/code_generator/zero_copy_stream.h	/^class ZeroCopyInputStream : private boost::noncopyable {$/;"	c	namespace:code_generator
+ZeroCopyOutputStream	../include/code_generator/zero_copy_stream.h	/^class ZeroCopyOutputStream : private boost::noncopyable {$/;"	c	namespace:code_generator
+access	../include/code_generator/config_parser.h	/^		std::string access = "private";$/;"	m	struct:code_generator::CodeGenConfig::MemberConfig
+access	../include/code_generator/config_parser.h	/^		std::string access = "public";$/;"	m	struct:code_generator::CodeGenConfig::FunctionConfig
+access_specifier	../include/code_generator/cpp_generator.h	/^    std::string access_specifier = "private";$/;"	m	struct:CppMember
+access_specifier	../include/code_generator/cpp_generator.h	/^    std::string access_specifier = "public";$/;"	m	struct:CppFunction
+at_start_of_line_	../include/code_generator/formatter.h	/^	bool at_start_of_line_;$/;"	m	class:code_generator::Formatter::IndentStyle
+base_classes	../include/code_generator/config_parser.h	/^		std::vector<std::string> base_classes;$/;"	m	struct:code_generator::CodeGenConfig::ClassConfig
+base_classes	../include/code_generator/cpp_generator.h	/^    std::vector<std::string> base_classes;$/;"	m	struct:CppClass
+block_stack_	../include/code_generator/formatter.h	/^	std::stack<BlockState> block_stack_;$/;"	m	class:code_generator::Formatter::IndentStyle
+body	../include/code_generator/config_parser.h	/^		std::string body;$/;"	m	struct:code_generator::CodeGenConfig::FunctionConfig
+body	../include/code_generator/cpp_generator.h	/^    std::string body;$/;"	m	struct:CppFunction
+buffer_	../include/code_generator/file_streams.h	/^	std::vector<char> buffer_;$/;"	m	class:code_generator::BoostFileOutputStream
+buffer_	../include/code_generator/file_streams.h	/^	std::vector<char> buffer_;$/;"	m	class:code_generator::FileInputStream
+buffer_	../include/code_generator/file_streams.h	/^	std::vector<char> buffer_;$/;"	m	class:code_generator::FileOutputStream
+buffer_	../include/code_generator/stream_adapters.h	/^	char* buffer_;$/;"	m	class:OStreamOutputStream
+buffer_available_	../include/code_generator/file_streams.h	/^	int buffer_available_;$/;"	m	class:code_generator::FileInputStream
+buffer_offset_	../include/code_generator/file_streams.h	/^	int buffer_offset_;$/;"	m	class:code_generator::BoostFileOutputStream
+buffer_offset_	../include/code_generator/file_streams.h	/^	int buffer_offset_;$/;"	m	class:code_generator::FileInputStream
+buffer_offset_	../include/code_generator/file_streams.h	/^	int buffer_offset_;$/;"	m	class:code_generator::FileOutputStream
+buffer_offset_	../include/code_generator/stream_adapters.h	/^	int buffer_offset_;$/;"	m	class:OStreamOutputStream
+buffer_size_	../include/code_generator/stream_adapters.h	/^	int buffer_size_;$/;"	m	class:OStreamOutputStream
+classes	../include/code_generator/config_parser.h	/^		std::vector<ClassConfig> classes;$/;"	m	struct:code_generator::CodeGenConfig::FileConfig
+code_generator	../include/code_generator.h	/^namespace code_generator {$/;"	n
+code_generator	../include/code_generator/config_parser.h	/^namespace code_generator {$/;"	n
+code_generator	../include/code_generator/file_streams.h	/^namespace code_generator {$/;"	n
+code_generator	../include/code_generator/formatter.h	/^namespace code_generator {$/;"	n
+code_generator	../include/code_generator/zero_copy_stream.h	/^namespace code_generator{$/;"	n
+code_generator	config_parser.cpp	/^namespace code_generator {$/;"	n	file:
+code_generator	file_streams.cpp	/^namespace code_generator {$/;"	n	file:
+code_generator	formatter.cpp	/^namespace code_generator {$/;"	n	file:
+code_generator	main.cpp	/^namespace code_generator {$/;"	n	file:
+code_generator	zero_copy_stream.cpp	/^namespace code_generator {$/;"	n	file:
+code_libraries_	../include/code_generator/enhanced_cpp_generator.h	/^    std::map<std::string, std::string> code_libraries_;$/;"	m	class:EnhancedCppGenerator
+code_templates	../include/code_generator/config_parser.h	/^		std::map<std::string, std::string> code_templates;$/;"	m	struct:code_generator::CodeGenConfig::ProjectConfig
+comment	../include/code_generator/config_parser.h	/^		std::string comment;$/;"	m	struct:code_generator::CodeGenConfig::MemberConfig
+common_includes	../include/code_generator/config_parser.h	/^		std::vector<std::string> common_includes;$/;"	m	struct:code_generator::CodeGenConfig::ProjectConfig
+config_parser_	../include/code_generator/enhanced_cpp_generator.h	/^    std::shared_ptr<code_generator::ConfigParser> config_parser_;$/;"	m	class:EnhancedCppGenerator
+copy_files	../include/code_generator/config_parser.h	/^		std::vector<std::string> copy_files;$/;"	m	struct:code_generator::CodeGenConfig::FileConfig
+current_filename_	../include/code_generator/cpp_generator.h	/^    std::string current_filename_;$/;"	m	class:CppGenerator
+custom_templates_	../include/code_generator/enhanced_cpp_generator.h	/^    std::map<std::string, std::string> custom_templates_;$/;"	m	class:EnhancedCppGenerator
+default_value	../include/code_generator/cpp_generator.h	/^    std::string default_value;$/;"	m	struct:CppParameter
+error_message_	../include/code_generator/config_parser.h	/^	std::string error_message_;$/;"	m	class:code_generator::ConfigParser
+file_	../include/code_generator/file_streams.h	/^	FILE* file_;$/;"	m	class:code_generator::FileInputStream
+file_	../include/code_generator/file_streams.h	/^	FILE* file_;$/;"	m	class:code_generator::FileOutputStream
+file_header_comment	../include/code_generator/cpp_generator.h	/^    std::string file_header_comment;$/;"	m	struct:CppGeneratorOptions
+filename	../include/code_generator/config_parser.h	/^		std::string filename;$/;"	m	struct:code_generator::CodeGenConfig::FileConfig
+filename_	../include/code_generator/file_streams.h	/^	boost::filesystem::path filename_;$/;"	m	class:code_generator::FileInputStream
+filename_	../include/code_generator/file_streams.h	/^	boost::filesystem::path filename_;$/;"	m	class:code_generator::FileOutputStream
+files	../include/code_generator/config_parser.h	/^		std::vector<FileConfig> files;$/;"	m	struct:code_generator::CodeGenConfig::ProjectConfig
+formatter_	../include/code_generator/cpp_generator.h	/^    code_generator::Formatter formatter_;$/;"	m	class:CppGenerator
+formatter_	../include/code_generator/formatter.h	/^		Formatter* formatter_;$/;"	m	class:code_generator::Formatter::IndentStyle::Scope
+forward_declarations	../include/code_generator/cpp_generator.h	/^    std::vector<std::string> forward_declarations;$/;"	m	struct:CppClass
+functions	../include/code_generator/config_parser.h	/^		std::vector<FunctionConfig> functions;$/;"	m	struct:code_generator::CodeGenConfig::FileConfig
+functions	../include/code_generator/cpp_generator.h	/^    std::vector<CppFunction> functions;$/;"	m	struct:CppClass
+generate_comments	../include/code_generator/cpp_generator.h	/^    bool generate_comments = true;$/;"	m	struct:CppGeneratorOptions
+globals	../include/code_generator/config_parser.h	/^		std::vector<MemberConfig> globals;$/;"	m	struct:code_generator::CodeGenConfig::FileConfig
+include_guard_prefix	../include/code_generator/cpp_generator.h	/^    std::string include_guard_prefix;$/;"	m	struct:CppGeneratorOptions
+includes	../include/code_generator/config_parser.h	/^		std::vector<std::string> includes;$/;"	m	struct:code_generator::CodeGenConfig::FileConfig
+indent_level_	../include/code_generator/formatter.h	/^	int indent_level_;$/;"	m	class:code_generator::Formatter::IndentStyle
+indent_style	../include/code_generator/cpp_generator.h	/^    code_generator::Formatter::IndentStyle indent_style = code_generator::Formatter::IndentStyle::SPACES_2;$/;"	m	struct:CppGeneratorOptions
+indent_style_	../include/code_generator/formatter.h	/^	IndentStyle indent_style_;$/;"	m	class:code_generator::Formatter::IndentStyle
+initializer	../include/code_generator/config_parser.h	/^		std::string initializer;$/;"	m	struct:code_generator::CodeGenConfig::MemberConfig
+initializer	../include/code_generator/cpp_generator.h	/^    std::string initializer;$/;"	m	struct:CppMember
+insert_snippets	../include/code_generator/config_parser.h	/^		std::vector<std::string> insert_snippets;$/;"	m	struct:code_generator::CodeGenConfig::FileConfig
+is_const	../include/code_generator/config_parser.h	/^		bool is_const = false;$/;"	m	struct:code_generator::CodeGenConfig::FunctionConfig
+is_const	../include/code_generator/cpp_generator.h	/^    bool is_const = false;$/;"	m	struct:CppFunction
+is_const	../include/code_generator/cpp_generator.h	/^    bool is_const = false;$/;"	m	struct:CppType
+is_pointer	../include/code_generator/cpp_generator.h	/^    bool is_pointer = false;$/;"	m	struct:CppType
+is_pure_virtual	../include/code_generator/config_parser.h	/^		bool is_pure_virtual = false;$/;"	m	struct:code_generator::CodeGenConfig::FunctionConfig
+is_pure_virtual	../include/code_generator/cpp_generator.h	/^    bool is_pure_virtual = false;$/;"	m	struct:CppFunction
+is_reference	../include/code_generator/cpp_generator.h	/^    bool is_reference = false;$/;"	m	struct:CppType
+is_static	../include/code_generator/config_parser.h	/^		bool is_static = false;$/;"	m	struct:code_generator::CodeGenConfig::FunctionConfig
+is_static	../include/code_generator/cpp_generator.h	/^    bool is_static = false;$/;"	m	struct:CppFunction
+is_virtual	../include/code_generator/config_parser.h	/^		bool is_virtual = false;$/;"	m	struct:code_generator::CodeGenConfig::FunctionConfig
+is_virtual	../include/code_generator/cpp_generator.h	/^    bool is_virtual = false;$/;"	m	struct:CppFunction
+last_returned_size_	../include/code_generator/file_streams.h	/^	int last_returned_size_;$/;"	m	class:code_generator::FileInputStream
+main	main.cpp	/^int main(int argc, char* argv[]) {$/;"	f
+members	../include/code_generator/cpp_generator.h	/^    std::vector<CppMember> members;$/;"	m	struct:CppClass
+metadata	../include/code_generator/config_parser.h	/^		std::map<std::string, std::string> metadata;$/;"	m	struct:code_generator::CodeGenConfig::ClassConfig
+name	../include/code_generator/config_parser.h	/^		std::string name;$/;"	m	struct:code_generator::CodeGenConfig::ClassConfig
+name	../include/code_generator/config_parser.h	/^		std::string name;$/;"	m	struct:code_generator::CodeGenConfig::FunctionConfig
+name	../include/code_generator/config_parser.h	/^		std::string name;$/;"	m	struct:code_generator::CodeGenConfig::MemberConfig
+name	../include/code_generator/config_parser.h	/^		std::string name;$/;"	m	struct:code_generator::CodeGenConfig::ProjectConfig
+name	../include/code_generator/cpp_generator.h	/^    std::string name;$/;"	m	struct:CppClass
+name	../include/code_generator/cpp_generator.h	/^    std::string name;$/;"	m	struct:CppFunction
+name	../include/code_generator/cpp_generator.h	/^    std::string name;$/;"	m	struct:CppMember
+name	../include/code_generator/cpp_generator.h	/^    std::string name;$/;"	m	struct:CppParameter
+name	../include/code_generator/cpp_generator.h	/^    std::string name;$/;"	m	struct:CppType
+namespaces	../include/code_generator/config_parser.h	/^		std::vector<std::string> namespaces;$/;"	m	struct:code_generator::CodeGenConfig::FileConfig
+options_	../include/code_generator/cpp_generator.h	/^    CppGeneratorOptions options_;$/;"	m	class:CppGenerator
+output_	../include/code_generator/formatter.h	/^	ZeroCopyOutputStreamPtr output_;$/;"	m	class:code_generator::Formatter::IndentStyle
+output_	../include/code_generator/stream_adapters.h	/^	std::ostream* output_;$/;"	m	class:OStreamOutputStream
+output_dir	../include/code_generator/config_parser.h	/^		std::string output_dir;$/;"	m	struct:code_generator::CodeGenConfig::ProjectConfig
+output_dir_	../include/code_generator/enhanced_cpp_generator.h	/^    std::string output_dir_;$/;"	m	class:EnhancedCppGenerator
+override	../include/code_generator/file_streams.h	/^	bool Flush() override;$/;"	m	class:code_generator::BoostFileOutputStream
+override	../include/code_generator/file_streams.h	/^	bool Flush() override;$/;"	m	class:code_generator::FileOutputStream
+override	../include/code_generator/file_streams.h	/^	bool Next(const void** data, int* size) override;$/;"	m	class:code_generator::FileInputStream
+override	../include/code_generator/file_streams.h	/^	bool Next(void** data, int* size) override;$/;"	m	class:code_generator::BoostFileOutputStream
+override	../include/code_generator/file_streams.h	/^	bool Next(void** data, int* size) override;$/;"	m	class:code_generator::FileOutputStream
+override	../include/code_generator/file_streams.h	/^	std::int64_t ByteCount() const override;$/;"	m	class:code_generator::BoostFileOutputStream
+override	../include/code_generator/file_streams.h	/^	std::int64_t ByteCount() const override;$/;"	m	class:code_generator::FileInputStream
+override	../include/code_generator/file_streams.h	/^	std::int64_t ByteCount() const override;$/;"	m	class:code_generator::FileOutputStream
+override	../include/code_generator/file_streams.h	/^	void BackUp(int count) override;$/;"	m	class:code_generator::BoostFileOutputStream
+override	../include/code_generator/file_streams.h	/^	void BackUp(int count) override;$/;"	m	class:code_generator::FileInputStream
+override	../include/code_generator/file_streams.h	/^	void BackUp(int count) override;$/;"	m	class:code_generator::FileOutputStream
+override	../include/code_generator/file_streams.h	/^	~FileInputStream() override;$/;"	m	class:code_generator::FileInputStream
+override	../include/code_generator/file_streams.h	/^	~FileOutputStream() override;$/;"	m	class:code_generator::FileOutputStream
+override	../include/code_generator/stream_adapters.h	/^	bool Flush() override;$/;"	m	class:OStreamOutputStream
+override	../include/code_generator/stream_adapters.h	/^	bool Next(void** data, int* size) override;$/;"	m	class:OStreamOutputStream
+override	../include/code_generator/stream_adapters.h	/^	bool Next(void** data, int* size) override;$/;"	m	class:StringOutputStream
+override	../include/code_generator/stream_adapters.h	/^	int64_t ByteCount() const override;$/;"	m	class:OStreamOutputStream
+override	../include/code_generator/stream_adapters.h	/^	int64_t ByteCount() const override;$/;"	m	class:StringOutputStream
+override	../include/code_generator/stream_adapters.h	/^	void BackUp(int count) override;$/;"	m	class:OStreamOutputStream
+override	../include/code_generator/stream_adapters.h	/^	void BackUp(int count) override;$/;"	m	class:StringOutputStream
+override	../include/code_generator/stream_adapters.h	/^	~OStreamOutputStream() override;$/;"	m	class:OStreamOutputStream
+own_file_	../include/code_generator/file_streams.h	/^	bool own_file_;$/;"	m	class:code_generator::FileInputStream
+own_file_	../include/code_generator/file_streams.h	/^	bool own_file_;$/;"	m	class:code_generator::FileOutputStream
+parameters	../include/code_generator/config_parser.h	/^		std::vector<std::pair<std::string, std::string>> parameters; \/\/ type, name$/;"	m	struct:code_generator::CodeGenConfig::FunctionConfig
+parameters	../include/code_generator/cpp_generator.h	/^    std::vector<CppParameter> parameters;$/;"	m	struct:CppFunction
+prefix	../include/code_generator/formatter.h	/^		std::string prefix;$/;"	m	struct:code_generator::Formatter::IndentStyle::BlockState
+project_config_	../include/code_generator/config_parser.h	/^	CodeGenConfig::ProjectConfig project_config_;$/;"	m	class:code_generator::ConfigParser
+return_type	../include/code_generator/config_parser.h	/^		std::string return_type;$/;"	m	struct:code_generator::CodeGenConfig::FunctionConfig
+return_type	../include/code_generator/cpp_generator.h	/^    std::string return_type;$/;"	m	struct:CppFunction
+stream_	../include/code_generator/file_streams.h	/^	boost::iostreams::stream<boost::iostreams::file_descriptor_sink> stream_;$/;"	m	class:code_generator::BoostFileOutputStream
+target_	../include/code_generator/stream_adapters.h	/^	std::string* target_;$/;"	m	class:StringOutputStream
+templates	../include/code_generator/config_parser.h	/^		std::map<std::string, std::string> templates;$/;"	m	struct:code_generator::CodeGenConfig::FileConfig
+templates	../include/code_generator/config_parser.h	/^		std::vector<std::string> templates;$/;"	m	struct:code_generator::CodeGenConfig::ClassConfig
+templates	../include/code_generator/config_parser.h	/^		std::vector<std::string> templates;$/;"	m	struct:code_generator::CodeGenConfig::FunctionConfig
+total_bytes_	../include/code_generator/file_streams.h	/^	std::int64_t total_bytes_;$/;"	m	class:code_generator::BoostFileOutputStream
+total_bytes_	../include/code_generator/file_streams.h	/^	std::int64_t total_bytes_;$/;"	m	class:code_generator::FileInputStream
+total_bytes_	../include/code_generator/file_streams.h	/^	std::int64_t total_bytes_;$/;"	m	class:code_generator::FileOutputStream
+total_bytes_	../include/code_generator/stream_adapters.h	/^	int64_t total_bytes_;$/;"	m	class:OStreamOutputStream
+total_bytes_	../include/code_generator/stream_adapters.h	/^	int64_t total_bytes_;$/;"	m	class:StringOutputStream
+type	../include/code_generator/config_parser.h	/^		std::string type; \/\/ "header" or "source"$/;"	m	struct:code_generator::CodeGenConfig::FileConfig
+type	../include/code_generator/config_parser.h	/^		std::string type;$/;"	m	struct:code_generator::CodeGenConfig::MemberConfig
+type	../include/code_generator/cpp_generator.h	/^    CppType type;$/;"	m	struct:CppMember
+type	../include/code_generator/cpp_generator.h	/^    CppType type;$/;"	m	struct:CppParameter
+type	../include/code_generator/formatter.h	/^		BlockType type;$/;"	m	struct:code_generator::Formatter::IndentStyle::BlockState
+use_braces	../include/code_generator/cpp_generator.h	/^    bool use_braces = true;$/;"	m	struct:CppGeneratorOptions
+use_braces_	../include/code_generator/formatter.h	/^	bool use_braces_;$/;"	m	class:code_generator::Formatter::IndentStyle
+use_include_guards	../include/code_generator/cpp_generator.h	/^    bool use_include_guards = false;$/;"	m	struct:CppGeneratorOptions
+use_pragma_once	../include/code_generator/cpp_generator.h	/^    bool use_pragma_once = true;$/;"	m	struct:CppGeneratorOptions
+variables	../include/code_generator/config_parser.h	/^		std::map<std::string, std::string> variables;$/;"	m	struct:code_generator::CodeGenConfig::ProjectConfig
+variables_	../include/code_generator/config_parser.h	/^	std::map<std::string, std::string> variables_;$/;"	m	class:code_generator::ConfigParser
+version	../include/code_generator/config_parser.h	/^		std::string version;$/;"	m	struct:code_generator::CodeGenConfig::ProjectConfig
+~FileInputStream	file_streams.cpp	/^FileInputStream::~FileInputStream() {$/;"	f	class:code_generator::FileInputStream
+~FileOutputStream	file_streams.cpp	/^FileOutputStream::~FileOutputStream() {$/;"	f	class:code_generator::FileOutputStream
+~Formatter	formatter.cpp	/^Formatter::~Formatter() {$/;"	f	class:code_generator::Formatter
+~OStreamOutputStream	stream_adapters.cpp	/^OStreamOutputStream::~OStreamOutputStream() {$/;"	f	class:OStreamOutputStream
+~Scope	formatter.cpp	/^Formatter::Scope::~Scope() {$/;"	f	class:code_generator::Formatter::Scope

@@ -1,0 +1,88 @@
+{
+	"name": "singleton_template",
+	"description": "线程安全的单例模式模板",
+	"type": "class_template",
+	"variables": {
+		"CLASS_NAME": "Singleton",
+		"INSTANCE_NAME": "instance_",
+		"METHOD_NAME": "GetInstance"
+	},
+	"class": {
+		"name": "${CLASS_NAME}",
+		"access": "public",
+		"members": [
+			{
+				"name": "${INSTANCE_NAME}",
+				"type": "${CLASS_NAME}*",
+				"access": "private",
+				"initializer": "nullptr",
+				"comment": "单例实例指针"
+			},
+			{
+				"name": "mutex_",
+				"type": "std::mutex",
+				"access": "private",
+				"comment": "用于线程安全的互斥锁"
+			}
+		],
+		"functions": [
+			{
+				"name": "${CLASS_NAME}",
+				"access": "private",
+				"body": "// 私有构造函数，防止外部实例化",
+				"comment": "私有构造函数"
+			},
+			{
+				"name": "~${CLASS_NAME}",
+				"access": "private",
+				"body": "// 私有析构函数",
+				"comment": "私有析构函数"
+			},
+			{
+				"name": "${CLASS_NAME}",
+				"parameters": [
+					{
+						"type": "const ${CLASS_NAME}&",
+						"name": "other"
+					}
+				],
+				"access": "private",
+				"body": "// 禁用拷贝构造函数",
+				"comment": "禁用拷贝构造函数"
+			},
+			{
+				"name": "operator=",
+				"parameters": [
+					{
+						"type": "const ${CLASS_NAME}&",
+						"name": "other"
+					}
+				],
+				"access": "private",
+				"body": "// 禁用赋值运算符",
+				"comment": "禁用赋值运算符"
+			},
+			{
+				"name": "${METHOD_NAME}",
+				"return_type": "${CLASS_NAME}*",
+				"access": "public",
+				"static": true,
+				"body": "if (${INSTANCE_NAME} == nullptr) {\n    std::lock_guard<std::mutex> lock(mutex_);\n    if (${INSTANCE_NAME} == nullptr) {\n        ${INSTANCE_NAME} = new ${CLASS_NAME}();\n    }\n}\nreturn ${INSTANCE_NAME};",
+				"comment": "获取单例实例的静态方法"
+			},
+			{
+				"name": "DestroyInstance",
+				"return_type": "void",
+				"access": "public",
+				"static": true,
+				"body": "if (${INSTANCE_NAME} != nullptr) {\n    std::lock_guard<std::mutex> lock(mutex_);\n    if (${INSTANCE_NAME} != nullptr) {\n        delete ${INSTANCE_NAME};\n        ${INSTANCE_NAME} = nullptr;\n    }\n}",
+				"comment": "销毁单例实例"
+			}
+		]
+	},
+	"includes": [
+		"<mutex>",
+		"<memory>"
+	],
+	"usage_example": "在类配置的templates数组中添加\"singleton_template\"，并设置CLASS_NAME变量"
+}

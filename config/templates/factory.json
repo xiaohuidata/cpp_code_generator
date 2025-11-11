@@ -1,0 +1,138 @@
+{
+	"name": "factory_template",
+	"description": "抽象工厂模式模板，支持产品族创建",
+	"type": "class_template",
+	"variables": {
+		"FACTORY_NAME": "AbstractFactory",
+		"PRODUCT_A_NAME": "AbstractProductA",
+		"PRODUCT_B_NAME": "AbstractProductB",
+		"CONCRETE_FACTORY1": "ConcreteFactory1",
+		"CONCRETE_FACTORY2": "ConcreteFactory2"
+	},
+	"classes": [
+		{
+			"name": "${PRODUCT_A_NAME}",
+			"access": "public",
+			"functions": [
+				{
+					"name": "~${PRODUCT_A_NAME}",
+					"access": "public",
+					"virtual": true,
+					"body": "// 虚析构函数",
+					"comment": "虚析构函数"
+				},
+				{
+					"name": "Operation",
+					"return_type": "void",
+					"access": "public",
+					"virtual": true,
+					"body": "// 产品A的操作",
+					"comment": "产品A的操作接口"
+				}
+			]
+		},
+		{
+			"name": "${PRODUCT_B_NAME}",
+			"access": "public",
+			"functions": [
+				{
+					"name": "~${PRODUCT_B_NAME}",
+					"access": "public",
+					"virtual": true,
+					"body": "// 虚析构函数",
+					"comment": "虚析构函数"
+				},
+				{
+					"name": "Operation",
+					"return_type": "void",
+					"access": "public",
+					"virtual": true,
+					"body": "// 产品B的操作",
+					"comment": "产品B的操作接口"
+				}
+			]
+		},
+		{
+			"name": "${FACTORY_NAME}",
+			"access": "public",
+			"functions": [
+				{
+					"name": "~${FACTORY_NAME}",
+					"access": "public",
+					"virtual": true,
+					"body": "// 虚析构函数",
+					"comment": "虚析构函数"
+				},
+				{
+					"name": "CreateProductA",
+					"return_type": "${PRODUCT_A_NAME}*",
+					"access": "public",
+					"virtual": true,
+					"pure_virtual": true,
+					"comment": "创建产品A的抽象方法"
+				},
+				{
+					"name": "CreateProductB",
+					"return_type": "${PRODUCT_B_NAME}*",
+					"access": "public",
+					"virtual": true,
+					"pure_virtual": true,
+					"comment": "创建产品B的抽象方法"
+				}
+			]
+		},
+		{
+			"name": "${CONCRETE_FACTORY1}",
+			"base_classes": ["${FACTORY_NAME}"],
+			"access": "public",
+			"functions": [
+				{
+					"name": "CreateProductA",
+					"return_type": "${PRODUCT_A_NAME}*",
+					"access": "public",
+					"virtual": true,
+					"body": "return new ConcreteProductA1();",
+					"comment": "创建具体产品A1"
+				},
+				{
+					"name": "CreateProductB",
+					"return_type": "${PRODUCT_B_NAME}*",
+					"access": "public",
+					"virtual": true,
+					"body": "return new ConcreteProductB1();",
+					"comment": "创建具体产品B1"
+				}
+			]
+		},
+		{
+			"name": "${CONCRETE_FACTORY2}",
+			"base_classes": ["${FACTORY_NAME}"],
+			"access": "public",
+			"functions": [
+				{
+					"name": "CreateProductA",
+					"return_type": "${PRODUCT_A_NAME}*",
+					"access": "public",
+					"virtual": true,
+					"body": "return new ConcreteProductA2();",
+					"comment": "创建具体产品A2"
+				},
+				{
+					"name": "CreateProductB",
+					"return_type": "${PRODUCT_B_NAME}*",
+					"access": "public",
+					"virtual": true,
+					"body": "return new ConcreteProductB2();",
+					"comment": "创建具体产品B2"
+				}
+			]
+		}
+	],
+	"includes": [
+		"<memory>"
+	],
+	"code_templates": {
+		"product_implementation": "class ${PRODUCT_NAME} : public ${BASE_PRODUCT} {\npublic:\n    void Operation() override {\n        // ${PRODUCT_NAME}的具体实现\n    }\n};"
+	},
+	"usage_example": "使用工厂模式模板创建产品族，支持多种具体工厂实现"
+}
