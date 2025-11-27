@@ -65,6 +65,7 @@ bool EnhancedCppGenerator::GenerateFromConfigFile(const std::string& config_file
     }
     
     if (!config_parser_->LoadFromFile(config_file)) {
+        std::cerr << "load from file: "  << config_file << ". Error:" << config_parser_->GetError() << std::endl;
         return false;
     }
     
@@ -77,6 +78,7 @@ bool EnhancedCppGenerator::GenerateFile(const code_generator::CodeGenConfig::Fil
     // 创建文件输出流
     std::ofstream file_stream(file_path);
     if (!file_stream) {
+        std::cerr << "create Error file:" << file_path << std::endl;
         return false;
     }
     

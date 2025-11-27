@@ -3,6 +3,8 @@
 #include <sstream>
 #include <algorithm>
 
+#include <iostream>
+
 namespace code_generator {
 
 // ClassConfig实现
@@ -310,6 +312,17 @@ CodeGenConfig::ProjectConfig CodeGenConfig::ProjectConfig::FromJson(const json::
 	return config;
 }
 
+void CodeGenConfig::LoadVariables(const json::value& json, std::map<std::string, std::string>& variables) {
+	if (json.is_object()) {
+		const json::object& obj = json.as_object();
+
+		// 变量映射
+		if (obj.contains("variables") && obj.at("variables").is_object()) {
+			variables = ConfigParser::JsonObjectToStringMap(obj.at("variables"));
+		}
+	}
+}
+
 json::value CodeGenConfig::ProjectConfig::ToJson() const {
 	json::object obj;
 	obj["name"] = name;
@@ -357,6 +370,19 @@ bool ConfigParser::LoadFromFile(const boost::filesystem::path& filename) {
 			return false;
 		}
 
+		std::map<std::string, std::string> variables;
+		CodeGenConfig::LoadVariables(json, variables);
+		std::string strbuffer = buffer.str();
+		std::cout << "variables.size()" << variables.size() << std::endl;
+		if (variables.size()) {
+			ReplaceBufferByVariables(strbuffer, variables);
+			try {
+				json = json::parse(strbuffer);
+			} catch (const std::exception& e) {
+				SetError("JSON2 parsing error: " + std::string(e.what()));
+				return false;
+			}
+		}
 		return LoadFromJson(json);
 
 	} catch (const std::exception& e) {
@@ -422,6 +448,20 @@ std::string ConfigParser::ReplaceVariables(const std::string& text) const {
 	replace_system_var("${OUTPUT_DIR}", project_config_.output_dir);
 
 	return result;
+}
+
+void ConfigParser::ReplaceBufferByVariables(std::string& strjson, std::map<std::string, std::string>& variables) {
+	for (const auto& iter : variables) {
+		const std::string& key = iter.first;
+		const std::string& value = iter.second;
+		std::cout << "key:" << key << " value:" << value << std::endl;
+		std::string placeholder = "${" + key + "}";
+		size_t pos = 0;
+		while ((pos = strjson.find(placeholder, pos)) != std::string::npos) {
+			strjson.replace(pos, placeholder.length(), value);
+			pos += value.length();
+		}
+	}
 }
 
 std::string ConfigParser::GetTemplate(const std::string& name) const {

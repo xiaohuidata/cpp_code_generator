@@ -237,9 +237,8 @@ void CppGenerator::GenerateFunctionImplementation(const CppFunction& func, const
     
     // 使用手动作用域管理
     formatter_.AddLine(signature);
-    formatter_.AddLine("{");
-    formatter_.Indent();
-    
+    formatter_.OpenBlockInternal();
+
     if (!func.body.empty()) {
         std::vector<std::string> lines;
         size_t start = 0;
@@ -258,6 +257,7 @@ void CppGenerator::GenerateFunctionImplementation(const CppFunction& func, const
     } else {
         formatter_.AddComment("TODO: Implement function body");
     }
+    formatter_.CloseBlock();
 }
 
 void CppGenerator::GenerateEnum(const std::string& name, const std::vector<std::string>& values, const std::string& type) {

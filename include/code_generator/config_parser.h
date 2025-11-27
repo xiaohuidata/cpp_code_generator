@@ -82,6 +82,8 @@ struct CodeGenConfig {
 		static ProjectConfig FromJson(const json::value& json);
 		json::value ToJson() const;
 	};
+
+	static void LoadVariables(const json::value& json, std::map<std::string, std::string>& variables);
 };
 
 // 配置解析器
@@ -103,6 +105,7 @@ public:
 
 	// 变量替换
 	std::string ReplaceVariables(const std::string& text) const;
+	void ReplaceBufferByVariables(std::string& strjson, std::map<std::string, std::string>& variables);
 
 	// 获取代码模板
 	std::string GetTemplate(const std::string& name) const;

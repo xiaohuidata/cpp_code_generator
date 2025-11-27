@@ -102,7 +102,7 @@ int main(int argc, char* argv[]) {
             ("help,h", "Show help message")
             ("version,v", "Show version information")
             ("test", "Run tests")
-            ("config,c", po::value<std::string>(), "Configuration file")
+            ("config,c", po::value<std::vector<std::string>>()->multitoken(), "Configuration file")
             ("output,o", po::value<std::string>()->default_value("./generated"), "Output directory")
             ("template,t", po::value<std::string>(), "Template name")
             ("list-templates,l", "List available templates")
@@ -142,6 +142,14 @@ int main(int argc, char* argv[]) {
         }
 
         // 这里可以添加主要的代码生成逻辑
+        if (vm.count("config")) {
+            auto configs = vm["config"].as<std::vector<std::string>>();
+            for (auto config : configs) {
+                code_generator::EnhancedCppGenerator ecg;
+                bool ret = ecg.GenerateFromConfigFile(config);
+                std::cout << "config file:(" << ret << ")" << config << std::endl;
+            }
+        }
 
         std::cout << "C++ Code Generator completed successfully!" << std::endl;
 

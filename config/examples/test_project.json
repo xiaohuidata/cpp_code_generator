@@ -231,7 +231,7 @@
 				"<gmock/gmock.h>"
 			],
 			"namespaces": ["${TEST_NAMESPACE}", "mocks"],
-			    "classes": [
+			"classes": [
 				{
 					"name": "DatabaseInterface",
 					"access": "public",
