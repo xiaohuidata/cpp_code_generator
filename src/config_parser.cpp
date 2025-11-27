@@ -454,7 +454,6 @@ void ConfigParser::ReplaceBufferByVariables(std::string& strjson, std::map<std::
 	for (const auto& iter : variables) {
 		const std::string& key = iter.first;
 		const std::string& value = iter.second;
-		std::cout << "key:" << key << " value:" << value << std::endl;
 		std::string placeholder = "${" + key + "}";
 		size_t pos = 0;
 		while ((pos = strjson.find(placeholder, pos)) != std::string::npos) {
