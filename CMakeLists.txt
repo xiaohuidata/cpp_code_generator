@@ -25,6 +25,10 @@ set(SOURCES
     src/config_parser.cpp
     src/enhanced_cpp_generator.cpp
     src/stream_adapters.cpp
+)
+
+set(MAIN_SOURCES
+    ${SOURCES}
     src/main.cpp
 )
 
@@ -37,11 +41,19 @@ set(HEADERS
     include/code_generator/config_parser.h
     include/code_generator/enhanced_cpp_generator.h
     include/code_generator/stream_adapters.h
+)
+
+set(MAIN_HEADERS
+    ${HEADERS}
     include/code_generator.h
 )
 
+add_library(cpp_code_generator_lib STATIC ${SOURCES} ${HEADERS})
 # 创建可执行文件
-add_executable(cpp_code_generator ${SOURCES} ${HEADERS})
+#add_executable(cpp_code_generator ${MAIN_SOURCES} ${MAIN_HEADERS})
+
+add_executable(cpp_code_generator src/main.cpp)
+target_link_libraries(cpp_code_generator cpp_code_generator_lib)
 
 # 设置目标的导出名称
 set_target_properties(cpp_code_generator PROPERTIES EXPORT_NAME CppCodeGenerator)
@@ -85,6 +97,7 @@ target_compile_features(cpp_code_generator PRIVATE cxx_std_11)
 # 编译器特定设置
 if(CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
     target_compile_options(cpp_code_generator PRIVATE -g -Wall -Wextra -Wpedantic -fpermissive)
+    target_compile_options(cpp_code_generator_lib PRIVATE -g -Wall -Wextra -Wpedantic -fpermissive)
 endif()
 
 # 版本信息

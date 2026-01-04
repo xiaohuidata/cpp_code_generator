@@ -55,7 +55,11 @@ bool EnhancedCppGenerator::GenerateFromConfig(const code_generator::CodeGenConfi
             }
         }
     }
-    
+
+    // 生成cmake
+    //GenerateCMake(config);
+    // 生成configure
+    //GenerateConfigure(config);
     return true;
 }
 
