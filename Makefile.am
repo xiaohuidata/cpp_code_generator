@@ -37,7 +37,7 @@ code_generator_include_HEADERS = \
 # 安装配置文件
 configdir = $(datarootdir)/cpp_code_generator/config
 config_DATA = \
-    config/templates/singleton.json \
+    config/templates/sigleton.json \
     config/templates/factory.json \
     config/templates/observer.json \
     config/examples/basic_project.json \

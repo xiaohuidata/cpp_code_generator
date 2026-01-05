@@ -35,6 +35,6 @@ echo "Running automake..."
 automake --add-missing --foreign
 
 echo "Running autoconf..."
-autoconf
+autoconf -vif
 
 echo "Autotools files generated successfully!"
