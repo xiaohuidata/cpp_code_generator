@@ -18,7 +18,7 @@ esac
 # 默认设置
 BUILD_TYPE="Release"
 BUILD_DIR="build"
-INSTALL_DIR="${1:-./install}"
+INSTALL_DIR="./install"
 GENERATOR=""
 USE_CONFIGURE=0
 CLEAN_BUILD=0
@@ -45,7 +45,7 @@ fi
 
 # 帮助信息
 show_help() {
-    echo "Usage: $0 [OPTIONS] [INSTALL_DIR]"
+    echo "Usage: $0 [OPTIONS]"
     echo ""
     echo "Build script for CppCodeGenerator"
     echo ""
@@ -59,6 +59,7 @@ show_help() {
     echo "  -C, --clean          Clean build directory before building"
     echo "  -j, --jobs N         Number of parallel jobs (default: auto)"
     echo "  -v, --verbose        Verbose output"
+    echo "  --prefix DIR         Installation directory (default: ./install)"
     echo "  --msvc               Use MSVC compiler (Windows)"
     echo "  --mingw              Use MinGW compiler (Windows)"
     echo ""
@@ -127,6 +128,10 @@ while [[ $# -gt 0 ]]; do
             VERBOSE=1
             shift
             ;;
+        --prefix)
+            INSTALL_DIR="$2"
+            shift 2
+            ;;
         --msvc)
             if [[ "$MACHINE" == "Windows" ]]; then
                 GENERATOR="Visual Studio 16 2019"
@@ -170,10 +175,6 @@ while [[ $# -gt 0 ]]; do
             log_error "Unknown option: $1"
             show_help
             exit 1
-            ;;
-        *)
-            INSTALL_DIR="$1"
-            shift
             ;;
     esac
 done
@@ -307,12 +308,12 @@ check_dependencies() {
 build_with_autotools() {
     log_info "Building with Autotools..."
     
-    #cd "$BUILD_DIR"
+    cd "$BUILD_DIR"
     
     # 生成configure脚本
     if [[ ! -f "configure" ]]; then
         log_info "Generating configure script..."
-        autoreconf -fi
+        autoreconf -fi ..
     fi
     
     # 配置
@@ -345,7 +346,7 @@ build_with_autotools() {
     esac
     
     log_info "Running configure..."
-    eval "./configure $configure_args"
+    eval "../configure $configure_args"
     
     # 构建
     log_info "Building..."
