@@ -75,7 +75,7 @@ REM 检查Boost
 if not exist "C:\boost\include\boost" (
     if not exist "C:\local\boost\include\boost" (
         if not exist "\boost\include\boost" (
-            echo [ERROR] Boost libraries not found. Please install Boost 1.65.0 or later.
+            echo [ERROR] Boost libraries not found. Please install Boost 1.75.0 or later.
             exit /b 1
         )
     )

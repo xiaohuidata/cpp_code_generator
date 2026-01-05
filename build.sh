@@ -296,7 +296,7 @@ check_dependencies() {
     # 检查Boost
     local boost_root=$(find_boost)
     if [[ -z "$boost_root" ]]; then
-        log_error "Boost libraries not found. Please install Boost 1.65.0 or later."
+        log_error "Boost libraries not found. Please install Boost 1.75.0 or later."
         exit 1
     fi
     

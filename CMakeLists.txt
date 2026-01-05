@@ -50,9 +50,9 @@ endif()
 if(Boost_FOUND)
     message(STATUS "Found Boost: ${Boost_INCLUDE_DIRS}")
 else()
-    find_package(Boost 1.65.0 REQUIRED COMPONENTS filesystem program_options json)
+    find_package(Boost 1.75.0 REQUIRED COMPONENTS filesystem program_options json)
     if(NOT Boost_FOUND)
-        message(FATAL_ERROR "Boost libraries not found. Please install Boost 1.65.0 or later.")
+        message(FATAL_ERROR "Boost libraries not found. Please install Boost 1.75.0 or later.")
     endif()
 endif()
 
@@ -247,7 +247,7 @@ install(DIRECTORY include/code_generator
 
 # 安装配置文件
 install(DIRECTORY config/
-    DESTINATION config
+    DESTINATION share/cpp_code_generator/config
 )
 
 # 测试配置（可选）
