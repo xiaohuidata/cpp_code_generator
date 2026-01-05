@@ -307,7 +307,7 @@ check_dependencies() {
 build_with_autotools() {
     log_info "Building with Autotools..."
     
-    cd "$BUILD_DIR"
+    #cd "$BUILD_DIR"
     
     # 生成configure脚本
     if [[ ! -f "configure" ]]; then
