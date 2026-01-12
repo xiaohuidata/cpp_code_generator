@@ -67,8 +67,81 @@ set(Boost_VERSION "1.75.0") # 假设使用的是1.75.0版本
 if(BOOST_ROOT)
     set(BOOST_HOME ${BOOST_ROOT})
     if(WIN32)
+        # Windows 平台：检查目录中是否有 boost*.lib 或 libboost*.lib 文件
+        set(FOUND_BOOST_DIR FALSE)
+
+        # 尝试多个可能的库目录
+        set(POSSIBLE_LIB_DIRS 
+            "${BOOST_ROOT}/lib64-msvc-14.3"
+            "${BOOST_ROOT}/lib64-msvc-14.2"
+            "${BOOST_ROOT}/lib64-msvc-14.1"
+            "${BOOST_ROOT}/lib64"
+            "${BOOST_ROOT}/lib"
+            "${BOOST_ROOT}/stage/lib"
+            )
+
+        foreach(LIB_DIR ${POSSIBLE_LIB_DIRS})
+            if(EXISTS "${LIB_DIR}")
+                # 检查该目录下是否有 Boost 库文件
+                file(GLOB BOOST_LIBS_CHECK 
+                    "${LIB_DIR}/boost*.lib"
+                    "${LIB_DIR}/libboost*.lib"
+                    "${LIB_DIR}/boost*.a"
+                    "${LIB_DIR}/libboost*.a"
+                    "${LIB_DIR}/boost*.dll"
+                    "${LIB_DIR}/libboost*.dll"
+                    )
+
+                if(BOOST_LIBS_CHECK)
+                    set(BOOST_LIBS "${LIB_DIR}")
+                    set(FOUND_BOOST_DIR TRUE)
+                    message(STATUS "Found Boost libraries in: ${LIB_DIR}")
+                    break()
+                endif()
+            endif()
+        endforeach()
+
+        if(NOT FOUND_BOOST_DIR)
+            message(FATAL_ERROR "Boost library directory not found in ${BOOST_ROOT}")
+        endif()
+
     else()
-    set(BOOST_LIBS ${BOOST_ROOT}/lib)
+        # Unix-like 平台 (Linux/macOS)：检查目录中是否有 libboost* 或 boost* 文件
+        set(FOUND_BOOST_DIR FALSE)
+
+        # 尝试多个可能的库目录
+        set(POSSIBLE_LIB_DIRS 
+            "${BOOST_ROOT}/lib64"
+            "${BOOST_ROOT}/lib"
+            "${BOOST_ROOT}/stage/lib"
+            "${BOOST_ROOT}/lib/x86_64-linux-gnu"
+            "${BOOST_ROOT}/lib/x64"
+            )
+
+        foreach(LIB_DIR ${POSSIBLE_LIB_DIRS})
+            if(EXISTS "${LIB_DIR}")
+                # 检查该目录下是否有 Boost 库文件
+                file(GLOB BOOST_LIBS_CHECK 
+                    "${LIB_DIR}/libboost*.so*"
+                    "${LIB_DIR}/libboost*.a"
+                    "${LIB_DIR}/libboost*.dylib*"
+                    "${LIB_DIR}/boost*.so*"
+                    "${LIB_DIR}/boost*.a"
+                    "${LIB_DIR}/boost*.dylib*"
+                    )
+
+                if(BOOST_LIBS_CHECK)
+                    set(BOOST_LIBS "${LIB_DIR}")
+                    set(FOUND_BOOST_DIR TRUE)
+                    message(STATUS "Found Boost libraries in: ${LIB_DIR}")
+                    break()
+                endif()
+            endif()
+        endforeach()
+
+        if(NOT FOUND_BOOST_DIR)
+            message(FATAL_ERROR "Boost library directory not found in ${BOOST_ROOT}")
+        endif()
     endif()
 else()
     # 检查环境变量
@@ -82,6 +155,10 @@ else()
     set(BOOST_HOME "$ENV{BOOST_HOME}")
     set(BOOST_LIBS "$ENV{BOOST_LIBS}")
 endif()
+
+message(STATUS "Using Boost version: ${Boost_VERSION}")
+message(STATUS "Boost home: ${BOOST_HOME}")
+message(STATUS "Boost libraries directory: ${BOOST_LIBS}")
 
 # 设置Boost的包含目录和库目录
 if(EXISTS "${BOOST_HOME}/boost")
@@ -151,10 +228,26 @@ foreach(COMPONENT IN LISTS BOOST_COMPONENTS)
             endif()
 
             # 检查静态库/动态库
-            if(Boost_USE_STATIC_LIBS AND NOT LIB_NAME MATCHES ".*\\.(a|lib)$")
-                continue()
-            elseif(NOT Boost_USE_STATIC_LIBS AND NOT LIB_NAME MATCHES ".*\\.(so|dylib|dll\\.a)$")
-                continue()
+            #if(Boost_USE_STATIC_LIBS AND NOT LIB_NAME MATCHES ".*\\.(a|lib)$")
+            #continue()
+            #elseif(NOT Boost_USE_STATIC_LIBS AND NOT LIB_NAME MATCHES ".*\\.(so|dylib|dll\\.a)$")
+            #continue()
+            #endif()
+            # 根据平台和链接类型检查库文件格式
+            if(MSVC)
+                # Visual Studio: 静态库和动态库导入库都使用.lib扩展名
+                # 对于MSVC，我们不根据文件扩展名区分静态/动态库
+                # 因为两者都使用.lib扩展名
+                if(NOT LIB_NAME MATCHES ".*\\.lib$")
+                    continue()
+                endif()
+            else()
+                # MinGW/Linux: 静态库使用.a，动态库使用.so/.dll.a/.dylib
+                if(Boost_USE_STATIC_LIBS AND NOT LIB_NAME MATCHES ".*\\.(a|lib)$")
+                    continue()
+                elseif(NOT Boost_USE_STATIC_LIBS AND NOT LIB_NAME MATCHES ".*\\.(so|dylib|dll\\.a)$")
+                    continue()
+                endif()
             endif()
 
             list(APPEND BOOST_LIBS "${LIB_FILE}")
