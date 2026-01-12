@@ -187,75 +187,59 @@ foreach(COMPONENT IN LISTS BOOST_COMPONENTS)
     set(COMPONENT_FOUND FALSE)
 
     # 更灵活的正则表达式，覆盖更多命名格式
-    if(WIN32)
+    # if(WIN32)
         # Windows: 支持多种命名格式
         # boost_system-vc143-mt-x64-1_83.lib
         # boost_system-vc143-mt.lib
         # boost_system-mt.lib
         # boost_system.lib
         # libboost_system-mt-x64.lib (MinGW)
-        set(COMPONENT_MATCHES
-            "^(lib)?boost_${COMPONENT}([._-].*)?\\.(lib|a)$"
-        )
-    else()
+        # set(COMPONENT_MATCHES
+        #   "^(lib)?boost_${COMPONENT}([._-].*)?\\.(lib|a)$"
+        # )
+    # else()
         # Unix-like: 支持静态库和动态库
         # libboost_system.so.1.83.0
         # libboost_system.so
         # libboost_system.a
-        set(COMPONENT_MATCHES
-            "^libboost_${COMPONENT}([._-].*)?\\.(so(\\.\\d+)*|a|dylib)$"
-        )
-    endif()
+        # set(COMPONENT_MATCHES
+        #   "^libboost_${COMPONENT}([._-].*)?\\.(so(\\.\\d+)*|a|dylib)$"
+        # )
+    # endif()
 
     # 尝试匹配不同的库命名格式
     foreach(LIB_FILE IN LISTS BOOST_ALL_LIBS)
         get_filename_component(LIB_NAME "${LIB_FILE}" NAME)
-
-        # 使用正则表达式匹配库名称
-        if(LIB_NAME MATCHES ${COMPONENT_MATCHES})
-            # 检查是否是调试版本（避免错误链接调试库）
-            if(NOT Boost_USE_DEBUG_LIBS AND LIB_NAME MATCHES ".*[Dd]ebug.*")
-                continue()
-            endif()
-
-            if(Boost_USE_DEBUG_LIBS AND NOT LIB_NAME MATCHES ".*[Dd]ebug.*")
-                continue()
-            endif()
-
-            # 检查是否是多线程版本
-            if(Boost_USE_MULTITHREADED AND NOT LIB_NAME MATCHES ".*mt.*")
-                continue()
-            endif()
-
-            # 检查静态库/动态库
-            #if(Boost_USE_STATIC_LIBS AND NOT LIB_NAME MATCHES ".*\\.(a|lib)$")
-            #continue()
-            #elseif(NOT Boost_USE_STATIC_LIBS AND NOT LIB_NAME MATCHES ".*\\.(so|dylib|dll\\.a)$")
-            #continue()
-            #endif()
-            # 根据平台和链接类型检查库文件格式
-            if(MSVC)
-                # Visual Studio: 静态库和动态库导入库都使用.lib扩展名
-                # 对于MSVC，我们不根据文件扩展名区分静态/动态库
-                # 因为两者都使用.lib扩展名
-                if(NOT LIB_NAME MATCHES ".*\\.lib$")
-                    continue()
+        # if(LIB_NAME MATCHES ${COMPONENT_MATCHES})
+        if(LIB_NAME MATCHES "boost_${COMPONENT}")
+            if(WIN32)
+                if(LIB_NAME MATCHES ".*\\.lib$")
+                    set(COMPONENT_FOUND TRUE)
                 endif()
             else()
-                # MinGW/Linux: 静态库使用.a，动态库使用.so/.dll.a/.dylib
-                if(Boost_USE_STATIC_LIBS AND NOT LIB_NAME MATCHES ".*\\.(a|lib)$")
-                    continue()
-                elseif(NOT Boost_USE_STATIC_LIBS AND NOT LIB_NAME MATCHES ".*\\.(so|dylib|dll\\.a)$")
-                    continue()
+                if (LIB_NAME MATCHES ".*\\.so$")
+                    set(COMPONENT_FOUND TRUE)
                 endif()
             endif()
-
-            list(APPEND BOOST_LIBS "${LIB_FILE}")
+        endif()
+        if(COMPONENT_FOUND)
             message(STATUS "Found Boost ${COMPONENT}: ${LIB_NAME}")
-            set(COMPONENT_FOUND TRUE)
+            list(APPEND BOOST_LIBS "${LIB_FILE}")
             break()
         endif()
     endforeach()
+
+    if(NOT COMPONENT_FOUND AND NOT WIN32)
+        foreach(LIB_FILE IN LISTS BOOST_ALL_LIBS)
+            get_filename_component(LIB_NAME "${LIB_FILE}" NAME)
+            if(LIB_NAME MATCHES "boost_${COMPONENT}" AND LIB_NAME MATCHES ".*\\.a$")
+                set(COMPONENT_FOUND_ TRUE)
+                message(STATUS "Found Boost ${COMPONENT}: ${LIB_NAME}")
+                list(APPEND BOOST_LIBS "${LIB_FILE}")
+                break()
+            endif()
+        endforeach()
+    endif()
 
     if(NOT COMPONENT_FOUND)
         message(FATAL_ERROR "Boost ${COMPONENT} library not found in ${Boost_LIBRARY_DIRS}")
