@@ -19,8 +19,23 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)
 
 # 库类型选择选项
-option(BUILD_SHARED_LIBS "Build shared libraries" ON)
-option(BUILD_STATIC_LIBS "Build static libraries" ON)
+# 在MinGW下默认只构建静态库，因为MinGW和Visual Studio的动态库不兼容
+# 在其他平台下默认同时构建静态库和动态库
+set(BUILD_SHARED_LIBS_DEFAULT ON)
+set(BUILD_STATIC_LIBS_DEFAULT ON)
+
+if(MINGW)
+    set(BUILD_SHARED_LIBS_DEFAULT OFF)
+endif()
+
+option(BUILD_SHARED_LIBS "Build shared libraries" ${BUILD_SHARED_LIBS_DEFAULT})
+option(BUILD_STATIC_LIBS "Build static libraries" ${BUILD_STATIC_LIBS_DEFAULT})
+
+# 确保至少构建一种库类型
+if(NOT BUILD_SHARED_LIBS AND NOT BUILD_STATIC_LIBS)
+    message(WARNING "Neither shared nor static libraries will be built. Enabling static libraries by default.")
+    set(BUILD_STATIC_LIBS ON)
+endif()
 
 # 跨平台库设置
 if(WIN32)
@@ -28,7 +43,12 @@ if(WIN32)
     set(BUILD_SHARED_LIBS_DEFAULT ON)
     set(CMAKE_SHARED_LIBRARY_SUFFIX ".dll")
     set(CMAKE_SHARED_MODULE_SUFFIX ".dll")
-    set(CMAKE_STATIC_LIBRARY_SUFFIX ".lib")
+    
+    if(MINGW)
+        set(CMAKE_STATIC_LIBRARY_SUFFIX ".a")
+    else()
+        set(CMAKE_STATIC_LIBRARY_SUFFIX ".lib")
+    endif()
 elseif(APPLE)
     set(BUILD_SHARED_LIBS_DEFAULT ON)
     set(CMAKE_SHARED_LIBRARY_SUFFIX ".dylib")
@@ -41,32 +61,135 @@ else()
     set(CMAKE_STATIC_LIBRARY_SUFFIX ".a")
 endif()
 
-# 确保至少构建一种库类型
-if(NOT BUILD_SHARED_LIBS AND NOT BUILD_STATIC_LIBS)
-    set(BUILD_SHARED_LIBS ON)
-endif()
+# 设置Boost库 - 使用环境变量BOOST_HOME和BOOST_LIBS
+set(Boost_VERSION "1.75.0") # 假设使用的是1.75.0版本
 
-# 查找Boost库 - 更健壮的查找方式
-if(Boost_FOUND)
-    message(STATUS "Found Boost: ${Boost_INCLUDE_DIRS}")
-else()
-    find_package(Boost 1.75.0 REQUIRED COMPONENTS filesystem program_options json)
-    if(NOT Boost_FOUND)
-        message(FATAL_ERROR "Boost libraries not found. Please install Boost 1.75.0 or later.")
+if(BOOST_ROOT)
+    set(BOOST_HOME ${BOOST_ROOT})
+    if(WIN32)
+    else()
+    set(BOOST_LIBS ${BOOST_ROOT}/lib)
     endif()
+else()
+    # 检查环境变量
+    if(NOT DEFINED ENV{BOOST_HOME})
+        message(FATAL_ERROR "BOOST_HOME environment variable not set. Please set it to Boost installation directory.")
+    endif()
+
+    if(NOT DEFINED ENV{BOOST_LIBS})
+        message(FATAL_ERROR "BOOST_LIBS environment variable not set. Please set it to Boost library directory.")
+    endif()
+    set(BOOST_HOME "$ENV{BOOST_HOME}")
+    set(BOOST_LIBS "$ENV{BOOST_LIBS}")
 endif()
 
-# 设置编译选项
-if(CMAKE_BUILD_TYPE STREQUAL "Release")
-    set(CMAKE_CXX_FLAGS_RELEASE "-O3 -DNDEBUG")
-elseif(CMAKE_BUILD_TYPE STREQUAL "Debug")
+# 设置Boost的包含目录和库目录
+if(EXISTS "${BOOST_HOME}/boost")
+    set(Boost_INCLUDE_DIRS "${BOOST_HOME}")
+elseif(EXISTS "${BOOST_HOME}/include/boost")
+    set(Boost_INCLUDE_DIRS "${BOOST_HOME}/include")
+else()
+    message(FATAL_ERROR "Failed ${BOOST_HOME}/boost or ${BOOST_HOME}/include/boost con't finded.")
+endif()
+set(Boost_LIBRARY_DIRS "${BOOST_LIBS}")
+
+message(STATUS "Using Boost from: ${BOOST_HOME}")
+message(STATUS "Boost include directories: ${Boost_INCLUDE_DIRS}")
+message(STATUS "Boost library directories: ${Boost_LIBRARY_DIRS}")
+
+# 根据编译器和构建类型设置Boost库名称
+set(BOOST_LIBS "")
+
+# 添加所需的Boost库
+set(BOOST_COMPONENTS "filesystem" "program_options" "json")
+
+# 在Boost库目录中查找所有库文件
+file(GLOB BOOST_ALL_LIBS "${Boost_LIBRARY_DIRS}/*boost*.*")
+
+foreach(COMPONENT IN LISTS BOOST_COMPONENTS)
+    set(COMPONENT_FOUND FALSE)
+
+    # 更灵活的正则表达式，覆盖更多命名格式
+    if(WIN32)
+        # Windows: 支持多种命名格式
+        # boost_system-vc143-mt-x64-1_83.lib
+        # boost_system-vc143-mt.lib
+        # boost_system-mt.lib
+        # boost_system.lib
+        # libboost_system-mt-x64.lib (MinGW)
+        set(COMPONENT_MATCHES
+            "^(lib)?boost_${COMPONENT}([._-].*)?\\.(lib|a)$"
+        )
+    else()
+        # Unix-like: 支持静态库和动态库
+        # libboost_system.so.1.83.0
+        # libboost_system.so
+        # libboost_system.a
+        set(COMPONENT_MATCHES
+            "^libboost_${COMPONENT}([._-].*)?\\.(so(\\.\\d+)*|a|dylib)$"
+        )
+    endif()
+
+    # 尝试匹配不同的库命名格式
+    foreach(LIB_FILE IN LISTS BOOST_ALL_LIBS)
+        get_filename_component(LIB_NAME "${LIB_FILE}" NAME)
+
+        # 使用正则表达式匹配库名称
+        if(LIB_NAME MATCHES ${COMPONENT_MATCHES})
+            # 检查是否是调试版本（避免错误链接调试库）
+            if(NOT Boost_USE_DEBUG_LIBS AND LIB_NAME MATCHES ".*[Dd]ebug.*")
+                continue()
+            endif()
+
+            if(Boost_USE_DEBUG_LIBS AND NOT LIB_NAME MATCHES ".*[Dd]ebug.*")
+                continue()
+            endif()
+
+            # 检查是否是多线程版本
+            if(Boost_USE_MULTITHREADED AND NOT LIB_NAME MATCHES ".*mt.*")
+                continue()
+            endif()
+
+            # 检查静态库/动态库
+            if(Boost_USE_STATIC_LIBS AND NOT LIB_NAME MATCHES ".*\\.(a|lib)$")
+                continue()
+            elseif(NOT Boost_USE_STATIC_LIBS AND NOT LIB_NAME MATCHES ".*\\.(so|dylib|dll\\.a)$")
+                continue()
+            endif()
+
+            list(APPEND BOOST_LIBS "${LIB_FILE}")
+            message(STATUS "Found Boost ${COMPONENT}: ${LIB_NAME}")
+            set(COMPONENT_FOUND TRUE)
+            break()
+        endif()
+    endforeach()
+
+    if(NOT COMPONENT_FOUND)
+        message(FATAL_ERROR "Boost ${COMPONENT} library not found in ${Boost_LIBRARY_DIRS}")
+    endif()
+endforeach()
+
+# 设置Boost_FOUND为真，以便后续代码使用
+set(Boost_FOUND TRUE)
+        
+# 设置编译选项 - 按编译器类型分别设置
+if(CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
     set(CMAKE_CXX_FLAGS_DEBUG "-g -O0 -DDEBUG")
+    set(CMAKE_CXX_FLAGS_RELEASE "-O3 -DNDEBUG")
+    set(CMAKE_CXX_FLAGS_RELWITHDEBINFO "-O2 -g -DNDEBUG")
+    set(CMAKE_CXX_FLAGS_MINSIZEREL "-Os -DNDEBUG")
+elseif(MSVC)
+    set(CMAKE_CXX_FLAGS_DEBUG "/Od /Zi /DDEBUG")
+    set(CMAKE_CXX_FLAGS_RELEASE "/O2 /DNDEBUG")
+    set(CMAKE_CXX_FLAGS_RELWITHDEBINFO "/O2 /Zi /DNDEBUG")
+    set(CMAKE_CXX_FLAGS_MINSIZEREL "/Os /DNDEBUG")
 endif()
 
 # 包含目录
 include_directories(
     ${CMAKE_SOURCE_DIR}/include
     ${CMAKE_SOURCE_DIR}/third_party
+    ${Boost_INCLUDE_DIRS}
 )
 
 # 检查C++17支持
@@ -130,7 +253,6 @@ if(BUILD_SHARED_LIBS)
         LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/lib"
     )
     
-    # Windows DLL导出设置
     if(WIN32)
         target_compile_definitions(cpp_code_generator_shared
             PRIVATE CPP_CODE_GENERATOR_EXPORTS
@@ -140,80 +262,55 @@ if(BUILD_SHARED_LIBS)
     set(SHARED_TARGET cpp_code_generator_shared)
 endif()
 
-# 创建可执行文件
-add_executable(cpp_code_generator src/main.cpp)
+# 创建可执行文件 - 使用所有必要的源文件
+add_executable(cpp_code_generator ${MAIN_SOURCES})
 
 # 设置可执行文件属性
 set_target_properties(cpp_code_generator PROPERTIES 
     OUTPUT_NAME "cppcodegen"
     RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin"
-    ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/lib"
-    LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/lib"
 )
 
-# 链接库 - 如果两者都构建，默认链接共享库
+# Windows调试器工作目录设置
+if(WIN32 AND MSVC)
+    set_target_properties(cpp_code_generator PROPERTIES 
+        VS_DEBUGGER_WORKING_DIRECTORY "${CMAKE_BINARY_DIR}/bin"
+    )
+endif()
+
+# Linux 特定的设置
+if(UNIX AND NOT APPLE)
+    # rpath 设置
+    set_target_properties(cpp_code_generator PROPERTIES 
+        BUILD_WITH_INSTALL_RPATH TRUE
+        INSTALL_RPATH "$ORIGIN/../lib"
+    )
+    
+    if(BUILD_SHARED_LIBS)
+        set_target_properties(cpp_code_generator_shared PROPERTIES 
+            BUILD_WITH_INSTALL_RPATH TRUE
+            INSTALL_RPATH "$ORIGIN/../lib"
+        )
+    endif()
+    
+    # Linux下的链接器选项
+    target_link_options(cpp_code_generator PRIVATE -Wl,--as-needed)
+    
+    if(BUILD_SHARED_LIBS)
+        target_link_options(cpp_code_generator_shared PRIVATE -Wl,--as-needed)
+    endif()
+endif()
+
+# 统一链接Boost库
 if(BUILD_SHARED_LIBS)
-    target_link_libraries(cpp_code_generator PRIVATE ${SHARED_TARGET})
-elseif(BUILD_STATIC_LIBS)
-    target_link_libraries(cpp_code_generator PRIVATE ${STATIC_TARGET})
+    target_link_libraries(cpp_code_generator_shared PRIVATE ${BOOST_LIBS})
 endif()
 
-# 链接Boost库 - 使用正确的Boost组件
-if(TARGET Boost::filesystem)
-    if(BUILD_SHARED_LIBS)
-        target_link_libraries(cpp_code_generator_shared PRIVATE Boost::filesystem)
-    endif()
-    if(BUILD_STATIC_LIBS)
-        target_link_libraries(cpp_code_generator_static PRIVATE Boost::filesystem)
-    endif()
-    target_link_libraries(cpp_code_generator PRIVATE Boost::filesystem)
-else()
-    if(BUILD_SHARED_LIBS)
-        target_link_libraries(cpp_code_generator_shared PRIVATE boost_filesystem)
-    endif()
-    if(BUILD_STATIC_LIBS)
-        target_link_libraries(cpp_code_generator_static PRIVATE boost_filesystem)
-    endif()
-    target_link_libraries(cpp_code_generator PRIVATE boost_filesystem)
+if(BUILD_STATIC_LIBS)
+    target_link_libraries(cpp_code_generator_static PRIVATE ${BOOST_LIBS})
 endif()
 
-# Boost Program Options链接
-if(TARGET Boost::program_options)
-    if(BUILD_SHARED_LIBS)
-        target_link_libraries(cpp_code_generator_shared PRIVATE Boost::program_options)
-    endif()
-    if(BUILD_STATIC_LIBS)
-        target_link_libraries(cpp_code_generator_static PRIVATE Boost::program_options)
-    endif()
-    target_link_libraries(cpp_code_generator PRIVATE Boost::program_options)
-else()
-    if(BUILD_SHARED_LIBS)
-        target_link_libraries(cpp_code_generator_shared PRIVATE boost_program_options)
-    endif()
-    if(BUILD_STATIC_LIBS)
-        target_link_libraries(cpp_code_generator_static PRIVATE boost_program_options)
-    endif()
-    target_link_libraries(cpp_code_generator PRIVATE boost_program_options)
-endif()
-
-# JSON库支持
-if(TARGET Boost::json)
-    if(BUILD_SHARED_LIBS)
-        target_link_libraries(cpp_code_generator_shared PRIVATE Boost::json)
-    endif()
-    if(BUILD_STATIC_LIBS)
-        target_link_libraries(cpp_code_generator_static PRIVATE Boost::json)
-    endif()
-    target_link_libraries(cpp_code_generator PRIVATE Boost::json)
-else()
-    if(BUILD_SHARED_LIBS)
-        target_link_libraries(cpp_code_generator_shared PRIVATE ${Boost_JSON_LIBRARIES})
-    endif()
-    if(BUILD_STATIC_LIBS)
-        target_link_libraries(cpp_code_generator_static PRIVATE ${Boost_JSON_LIBRARIES})
-    endif()
-    target_link_libraries(cpp_code_generator PRIVATE ${Boost_JSON_LIBRARIES})
-endif()
+target_link_libraries(cpp_code_generator PRIVATE ${BOOST_LIBS})
 
 # 安装目标
 if(BUILD_STATIC_LIBS)
@@ -276,8 +373,12 @@ else()
 endif()
 
 # 编译器特定设置
+set(COMPILER_SPECIFIC_OPTIONS "")
+
+# 根据编译器类型设置不同的编译选项
 if(CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
-    target_compile_options(cpp_code_generator PRIVATE 
+    # GCC/Clang编译选项
+    set(GCC_CLANG_OPTIONS 
         -Wall 
         -Wextra 
         -Wpedantic 
@@ -286,55 +387,39 @@ if(CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
         -fpermissive
     )
     
-    # 为库目标设置编译选项
-    if(BUILD_SHARED_LIBS)
-        target_compile_options(cpp_code_generator_shared PRIVATE 
-            -Wall 
-            -Wextra 
-            -Wpedantic 
-            -Wno-unused-parameter
-            -Wno-missing-field-initializers
-            -fpermissive
+    # 添加到编译器特定选项
+    list(APPEND COMPILER_SPECIFIC_OPTIONS ${GCC_CLANG_OPTIONS})
+    
+    # 对于MinGW，添加额外选项
+    if(MINGW)
+        list(APPEND COMPILER_SPECIFIC_OPTIONS 
+            -mthreads
+            -Wno-deprecated-declarations
+            -Wno-unused-variable
         )
     endif()
-    
-    if(BUILD_STATIC_LIBS)
-        target_compile_options(cpp_code_generator_static PRIVATE 
-            -Wall 
-            -Wextra 
-            -Wpedantic 
-            -Wno-unused-parameter
-            -Wno-missing-field-initializers
-            -fpermissive
-        )
-    endif()
-    
-elseif(CMAKE_CXX_COMPILER_ID MATCHES "MSVC")
-    target_compile_options(cpp_code_generator PRIVATE 
+elseif(MSVC)
+    # MSVC编译选项
+    set(MSVC_OPTIONS 
         /W4
         /EHsc
         /MP
         /Zc:__cplusplus
     )
     
-    # 为库目标设置编译选项
-    if(BUILD_SHARED_LIBS)
-        target_compile_options(cpp_code_generator_shared PRIVATE 
-            /W4
-            /EHsc
-            /MP
-            /Zc:__cplusplus
-        )
-    endif()
-    
-    if(BUILD_STATIC_LIBS)
-        target_compile_options(cpp_code_generator_static PRIVATE 
-            /W4
-            /EHsc
-            /MP
-            /Zc:__cplusplus
-        )
-    endif()
+    # 添加到编译器特定选项
+    list(APPEND COMPILER_SPECIFIC_OPTIONS ${MSVC_OPTIONS})
+endif()
+
+# 应用编译选项到所有目标
+target_compile_options(cpp_code_generator PRIVATE ${COMPILER_SPECIFIC_OPTIONS})
+
+if(BUILD_SHARED_LIBS)
+    target_compile_options(cpp_code_generator_shared PRIVATE ${COMPILER_SPECIFIC_OPTIONS})
+endif()
+
+if(BUILD_STATIC_LIBS)
+    target_compile_options(cpp_code_generator_static PRIVATE ${COMPILER_SPECIFIC_OPTIONS})
 endif()
 
 # 版本信息
